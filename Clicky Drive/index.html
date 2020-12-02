@@ -25,6 +25,7 @@
 var game = new Phaser.Game(config);
 var background;
 var node;
+var Version = "0.0.1;"
 
 function preload ()
 {
@@ -37,35 +38,34 @@ function preload ()
 
 function create()
 {
-	game.resize(window.innerWidth, window.innerHeight);
-	background = this.add.image(window.innerWidth/2, window.innerHeight/2, 'bg'); // is in 16:9 aspect ratio.
-    background.setScale(window.innerWidth/background.width);
-	node = this.add.sprite(window.innerWidth/2, window.innerHeight/2, 'node');
+	background = this.add.image(0,0, 'bg'); // is in 16:9 aspect ratio.
+	node = this.add.sprite(0,0, 'node');
+	scaleAll();
 	node.setScale(0.3,0.3);
 }
 
 
 function update()
 {
-	window.addEventListener('resize', () => 
-	{
-		game.resize(window.innerWidth, window.innerHeight);
-		
-		background.x=window.innerWidth/2;
-		background.y=window.innerHeight/2;
-		node.x=window.innerWidth/2;
-		node.y=window.innerHeight/2;
-		// dyamically set the scale somehow.
-		background.setScale(window.innerWidth/background.width);
-		
-		
-	
-	});
+	window.addEventListener('resize', () => {scaleAll();});
 
 	
 	
 	
 	
+}
+
+function scaleAll()
+{
+	game.resize(window.innerWidth, window.innerHeight);
+		
+        background.x=window.innerWidth/2;
+	background.y=window.innerHeight/2;
+	node.x=window.innerWidth/2;
+	node.y=window.innerHeight/2;
+
+	// dyamically set the scale somehow.
+	background.setScale(window.innerWidth/background.width);
 }
 
 
