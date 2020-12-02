@@ -6,14 +6,23 @@
 <body>
 
 <script>
+var game;
+var background;
+var node;
+var Version = "0.0.7;"
+var aspectRatio; // Ha, your move computer, I'm not doing math! pff.
 
-    var config = {
+var config = 
+{
     type: Phaser.AUTO,
+
     // an exeptionally shit fix to a problem.
-    width: window.innerWidth*3,
-    height: window.innerHeight*3,
+    // The 3 is arbitrary, but should not be larger than 5.
+    width: window.innerWidth*2,
+    height: window.innerHeight*2,
 	
-    scene: {
+    scene: 
+    {
         preload: preload,
         create: create,
         update: update
@@ -22,10 +31,11 @@
 	
 };
 
-var game = new Phaser.Game(config);
-var background;
-var node;
-var Version = "0.0.1;"
+// define the game
+game = new Phaser.Game(config);
+
+
+console.log("Clicky Drive Version: "+Version);
 
 function preload ()
 {
@@ -39,15 +49,22 @@ function preload ()
 function create()
 {
 	background = this.add.image(0,0, 'bg'); // is in 16:9 aspect ratio.
+	aspectRatio= background.width/background.height; //  this figures whether that is true.
 	node = this.add.sprite(0,0, 'node');
+
+
 	scaleAll();
 	node.setScale(0.3,0.3);
-}
 
+
+	//resize listener
+	window.addEventListener('resize', () => {scaleAll();});
+}
 
 function update()
 {
-	window.addEventListener('resize', () => {scaleAll();});
+	// let's try to only resize after resizing is done, to prevent lag. Don't do it every frame during user resizing.
+	
 
 	
 	
@@ -57,6 +74,7 @@ function update()
 
 function scaleAll()
 {
+	// not only resize, but maintain aspect ratio, which is 16 by 9.
 	game.resize(window.innerWidth, window.innerHeight);
 		
         background.x=window.innerWidth/2;
@@ -64,8 +82,24 @@ function scaleAll()
 	node.x=window.innerWidth/2;
 	node.y=window.innerHeight/2;
 
-	// dyamically set the scale somehow.
-	background.setScale(window.innerWidth/background.width);
+	// dyamically set the scale to the shorter of the two diminsions.
+	// wait, that only works if the bg is square.
+	// right, okay...
+	// so how?
+	// Okay, idea
+	// figure out the aspect ratio of the window!
+	windowAspectRatio = window.innerWidth/window.innerHeight;
+	// if it is higher it is too wide, if it is lower it is too high.
+	if(windowAspectRatio>aspectRatio)
+	{
+		// set to height.
+		background.setScale(window.innerHeight/background.height);
+	}
+	else
+	{
+		background.setScale(window.innerWidth/background.width);
+	}
+	
 }
 
 
