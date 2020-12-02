@@ -9,8 +9,9 @@
 
     var config = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-	height: window.innerHeight,
+    // an exeptionally shit fix to a problem.
+    width: window.innerWidth*3,
+    height: window.innerHeight*3,
 	
     scene: {
         preload: preload,
@@ -36,6 +37,7 @@ function preload ()
 
 function create()
 {
+	game.resize(window.innerWidth, window.innerHeight);
 	background = this.add.image(window.innerWidth/2, window.innerHeight/2, 'bg'); // is in 16:9 aspect ratio.
     background.setScale(window.innerWidth/background.width);
 	node = this.add.sprite(window.innerWidth/2, window.innerHeight/2, 'node');
