@@ -1,0 +1,7 @@
+0.0.2
+ - figure out how to work as another file
+ - basic archetecture
+
+0.1.0
+  - figure out HTML Dom in phaser
+  - basic archetecture
