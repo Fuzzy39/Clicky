@@ -8,3 +8,13 @@ Finished Dec 2, 2020 9:16 PM
 - version string
 ---------------------------
 126 lines of code (Pathetic!)
+
+Clicky Drive v0.1.0.94 - "Standalone"
+Finished Dec 3, 2020 2:03 PM
+---------------------------
+- Gold Node removed.
+- Clicky Drive is now a standalone 'engine' It is very limited
+	- Background image can be changed at will, though it must be 16:9
+	- Version watermark can be appended to, moved, and styled at will.
+---------------------------
+117 lines of code (somehow, less!)
