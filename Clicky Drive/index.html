@@ -9,8 +9,9 @@
 var game;
 var background;
 var node;
-var Version = "0.0.7;"
-var aspectRatio; // Ha, your move computer, I'm not doing math! pff.
+var Version = "0.0.1.55;"
+var versionString;
+var aspectRatio;
 
 var config = 
 {
@@ -48,13 +49,15 @@ function preload ()
 
 function create()
 {
+	
 	background = this.add.image(0,0, 'bg'); // is in 16:9 aspect ratio.
 	aspectRatio= background.width/background.height; //  this figures whether that is true.
 	node = this.add.sprite(0,0, 'node');
-
-
+	versionString = this.add.text(0, 0, "Clicky Drive v"+Version, { fontFamily: '"Arial"', fontSize:'12pt', color:'black' });
+    versionString.originX=-.5; // make it easier to deal with
+	versionString.originY=-.5;
 	scaleAll();
-	node.setScale(0.3,0.3);
+	
 
 
 	//resize listener
@@ -77,11 +80,14 @@ function scaleAll()
 	// not only resize, but maintain aspect ratio, which is 16 by 9.
 	game.resize(window.innerWidth, window.innerHeight);
 		
-        background.x=window.innerWidth/2;
+    background.x=window.innerWidth/2;
 	background.y=window.innerHeight/2;
+	
 	node.x=window.innerWidth/2;
 	node.y=window.innerHeight/2;
 
+	
+	
 	// dyamically set the scale to the shorter of the two diminsions.
 	// wait, that only works if the bg is square.
 	// right, okay...
@@ -94,11 +100,17 @@ function scaleAll()
 	{
 		// set to height.
 		background.setScale(window.innerHeight/background.height);
+		node.setScale((window.innerHeight/node.height)*.3);
 	}
 	else
 	{
 		background.setScale(window.innerWidth/background.width);
+		node.setScale((window.innerWidth/node.width)*.3);
 	}
+	
+	// needs to be at end to prevent death
+	versionString.y = background.y -(background.displayHeight/2);
+	versionString.x = background.x -(background.displayWidth/2);
 	
 }
 
