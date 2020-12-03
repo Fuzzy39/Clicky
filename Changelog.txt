@@ -1,6 +1,6 @@
 First work began Nov 30, 2020.
 
-Clicky Drive v0.0.1.55
+Clicky Drive v0.0.1.55 - "Seed"
 Finished Dec 2, 2020 9:16 PM
 ---------------------------
 - Resizable window containing two images
