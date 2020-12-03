@@ -1,15 +1,6 @@
 Clicky Drive Roadmap as of December 3rd, 2020
 --------------------------------------------------
 
-0.1.0
- - Clicky Drive can now stand on its own, even if it isn't useful.
- - figure out how to work as a seperate file
- - basic archetecture
-	- Background Property
-	- Version string Property
-	- Version String Location Property
- - Start documentation
-
 0.1.1
   - figure out HTML Dom in phaser
   - basic archetecture, get buttons to do things, etc
@@ -22,6 +13,7 @@ Clicky Drive Roadmap as of December 3rd, 2020
 
 0.2.0
   - Clicky 3 can be remade with this version.
+  - documentation
   - implement upgrades and autos
   
 

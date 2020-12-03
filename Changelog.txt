@@ -7,7 +7,7 @@ Finished Dec 2, 2020 9:16 PM
 - images conform to 16:9 aspect ratio
 - version string
 ---------------------------
-126 lines of code (Pathetic!)
+107 lines of code (Pathetic!)
 
 Clicky Drive v0.1.0.94 - "Standalone"
 Finished Dec 3, 2020 2:03 PM
@@ -17,4 +17,4 @@ Finished Dec 3, 2020 2:03 PM
 	- Background image can be changed at will, though it must be 16:9
 	- Version watermark can be appended to, moved, and styled at will.
 ---------------------------
-117 lines of code (somehow, less!)
+117 lines of code (Took stuff out, put stuff in, over all, same same)
