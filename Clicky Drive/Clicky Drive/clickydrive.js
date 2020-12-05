@@ -2,7 +2,7 @@ var ClickyDrive =
 {
 	
 	game:undefined,
-        versionString:"Clicky Drive v0.1.0.118 ",
+        versionString:"Clicky Drive v0.1.0.121 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // nope,  not anymore.
@@ -16,7 +16,7 @@ var ClickyDrive =
 	{ 
 		 console.log(ClickyDrive.versionString);
 		 this.load.image('bg',ClickyDrive.background ); 
-		 this.load.html('ui', ui);
+		 this.load.html('ui', ClickyDrive.ui);
 	},
 		
 
@@ -39,8 +39,8 @@ var ClickyDrive =
 		
 		
 		// add in a dom
-		this.add.dom(0, 0, 'div', 'background-color: lime; width: 220px; height: 100px; font: 48px Arial', 'Phaser');
-	
+		//this.add.dom(0, 0, 'div', 'background-color: lime; width: 220px; height: 100px; font: 48px Arial', 'Phaser');
+		this.add.dom(0,0).createFromHTML(ClickyDrive.ui);
 
 
 	},
