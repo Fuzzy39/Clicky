@@ -2,7 +2,7 @@ var ClickyDrive =
 {
 	
 	game:undefined,
-        versionString:"Clicky Drive v0.1.1.128 ",
+        versionString:"Clicky Drive v0.1.1.145 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'
@@ -13,6 +13,11 @@ var ClickyDrive =
 	background:undefined,
 	ui:undefined,
 
+	resources:
+	{
+		//nothing, but don't worry.
+	},
+	
 	preload: function()
 	{ 
 		console.log(ClickyDrive.versionString);
@@ -64,9 +69,36 @@ var ClickyDrive =
 	{
 
 		//sweet nothing...
-	
-	}
+		for  ( item in ClickyDrive.resources)
+		{
+		
+			ClickyDrive.resources[item].amount+= ClickyDrive.resources[item].perSecond/60;
+		}
+	},
 
+	
+	
+	// constructor
+	resource:function( name, locationX, locationY, picture, clickable, particle, amountAvailible,)
+	{
+		this.name = name;
+		this.location = {locationX,locationY,};
+		this.imgString=picture; // we will require multiple images, but for now...
+		this.clickable=clickable;
+		this.totalAmountAvailible=amountAvailible;
+		this.amountAvailible=amountAvailible;
+		ClickyDrive.resources[name]=this;
+		this.amount=this.amountAvailible;
+		this.perSecond=0;
+		this.perClick=1;
+		this.add=function(toAdd)
+		{
+			this.amountAvailible+=toAdd;
+			
+			this.totalAmountAvailible=this.amountAvailible;
+		}
+	}
+	
 	
 }
 
