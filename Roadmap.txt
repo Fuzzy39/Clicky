@@ -3,8 +3,13 @@ Clicky Drive Roadmap as of December 5th, 2020
 
 
 0.1.2
-  - implement resources, with features like: requirements, clickable, hoverable, position, etc.
-  - node with particles and junk.
+  - use strict mode now, because it exists, wow
+  - implement resources,
+  		-they are drawn in many images as they deplete
+		-they emit particles
+		-they have amount, /sec and /click
+		
+  
 
 0.2.0
   - Clicky 3 can be remade with this version.
