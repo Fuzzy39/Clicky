@@ -18,3 +18,12 @@ Finished Dec 3, 2020 2:03 PM
 	- Version watermark can be appended to, moved, and styled at will.
 ---------------------------
 117 lines of code (Took stuff out, put stuff in, over all, same same)
+
+Clicky Drive v0.1.1.128 - "DOM UI"
+Finished Dec 5, 2020 10:39 PM
+-----------------------------
+- Updated to the latest version of phaser
+- Added html DOM support
+- that's basically it, pretty simple.
+-----------------------------
+100 lines of code (Somehow less than the first version? I have no clue how that works.)

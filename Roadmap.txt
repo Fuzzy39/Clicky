@@ -1,13 +1,10 @@
-Clicky Drive Roadmap as of December 4th, 2020
+Clicky Drive Roadmap as of December 5th, 2020
 --------------------------------------------------
 
-0.1.1
-  - Update to latest version of phaser and use it locally.
-  - figure out HTML Dom in phaser
-  - basic archetecture, get buttons to do things, etc
 
 0.1.2
   - implement resources, with features like: requirements, clickable, hoverable, position, etc.
+  - node with particles and junk.
 
 0.2.0
   - Clicky 3 can be remade with this version.
