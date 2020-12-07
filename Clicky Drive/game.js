@@ -1,4 +1,4 @@
-
+"use strict";
 // Style Watermark
 ClickyDrive.versionAppend="Running Test v33";
 ClickyDrive.vWatermarkStyle.strokeThickness=.5;

@@ -1,23 +1,31 @@
+"use strict";
 var ClickyDrive =
 {
 	
 	game:undefined,
-        versionString:"Clicky Drive v0.1.1.145 ",
+        versionString:"Clicky Drive v0.1.1.152 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'
 	vWatermarkY:0,
 	vWatermarkStyle:{ fontFamily: '"Arial"', fontSize:'12pt', color:'white', strokeThickness:0 },
-    aspectRatio:16/9,
+    	aspectRatio:16/9,
+	
 	
 	background:undefined,
 	ui:undefined,
+	nodeTextures:[],
 
 	resources:
 	{
-		//nothing, but don't worry.
+		//user defined
 	},
 	
+	nodes:
+	{
+		// user defined.
+	},
+
 	preload: function()
 	{ 
 		console.log(ClickyDrive.versionString);
@@ -31,6 +39,13 @@ var ClickyDrive =
 		{
 			this.load.html('ui', ClickyDrive.ui);
 		}
+		
+		for( let i = 0; i<ClickyDrive.nodeTextures.length; i++)
+		{
+			this.load.image( ClickyDrive.nodeTextures[i], ClickyDrive.nodeTextures[i] ); 
+			
+		}
+	
 	},
 		
 
@@ -69,22 +84,37 @@ var ClickyDrive =
 	{
 
 		//sweet nothing...
-		for  ( item in ClickyDrive.resources)
-		{
-		
-			ClickyDrive.resources[item].amount+= ClickyDrive.resources[item].perSecond/60;
+		for  ( let item in ClickyDrive.resources)
+		{	
+			let toAdd = ClickyDrive.resources[item].perSecond/60;
+
+			if(ClickyDrive.resources[item].amountAvailible===0)
+			{ 
+				continue; // nothing left, just leave.
+			}
+
+			// we can get everything?
+			if( toAdd >= ClickyDrive.resources[item].amountAvailible)
+			{
+				ClickyDrive.resources[item].amount+= toAdd; // take all that's due
+				ClickyDrive.resources[item].amountAvailible-=toAdd // and remove it from the stache.
+			}
+			else
+			{
+				// exaust whatever is remaining.
+				ClickyDrive.resources[item].amount+=ClickyDrive.resources[item].amountAvailible;
+				ClickyDrive.resources[item].amountAvailible=0;	
+			}
 		}
 	},
 
 	
 	
 	// constructor
-	resource:function( name, locationX, locationY, picture, clickable, particle, amountAvailible,)
+	resource:function( name, amountAvailible)
 	{
 		this.name = name;
-		this.location = {locationX,locationY,};
-		this.imgString=picture; // we will require multiple images, but for now...
-		this.clickable=clickable;
+		
 		this.totalAmountAvailible=amountAvailible;
 		this.amountAvailible=amountAvailible;
 		ClickyDrive.resources[name]=this;
@@ -97,13 +127,22 @@ var ClickyDrive =
 			
 			this.totalAmountAvailible=this.amountAvailible;
 		}
+	},
+	
+	node:function(resource, ulocationX, locationY, size, enabled, pictures, particle, depletedParticle)
+	{
+
+		this.location = {locationX,locationY,};
+		this.size = size
+		this.textures=pictures; // we will require multiple images, but for now...
+		this.enabled=enabled
+		this.particle=particle
+		this.depletedParticle=depletedParticle
 	}
-	
-	
 }
 
 // config is last because the functions are defined in an object
-config =
+let config =
 {
    type: Phaser.AUTO,
    autoCenter: true,
