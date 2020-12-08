@@ -3,18 +3,18 @@ var ClickyDrive =
 {
 	
 	game:undefined,
-        versionString:"Clicky Drive v0.1.1.152 ",
+        versionString:"Clicky Drive v0.1.1.173 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'
 	vWatermarkY:0,
 	vWatermarkStyle:{ fontFamily: '"Arial"', fontSize:'12pt', color:'white', strokeThickness:0 },
-    	aspectRatio:16/9,
+    aspectRatio:16/9,
 	
 	
 	background:undefined,
 	ui:undefined,
-	nodeTextures:[],
+	
 
 	resources:
 	{
@@ -40,12 +40,15 @@ var ClickyDrive =
 			this.load.html('ui', ClickyDrive.ui);
 		}
 		
-		for( let i = 0; i<ClickyDrive.nodeTextures.length; i++)
+		
+		for(let i in ClickyDrive.nodes )
 		{
-			this.load.image( ClickyDrive.nodeTextures[i], ClickyDrive.nodeTextures[i] ); 
+			for( let j in ClickyDrive.nodes[i].textures)
+			{
+				this.load.image( ClickyDrive.nodes[i].name+''+j, ClickyDrive.nodes[i].textures[j] ); 
+			}
 			
 		}
-	
 	},
 		
 
@@ -77,13 +80,23 @@ var ClickyDrive =
 		ClickyDrive.versionWatermark = this.add.text(ClickyDrive.vWatermarkX, ClickyDrive.vWatermarkY, ClickyDrive.versionString+ClickyDrive.versionAppend, ClickyDrive.vWatermarkStyle);
     	ClickyDrive.versionWatermark.originX=-.5; // make it easier to deal with
 		ClickyDrive.versionWatermark.originY=-.5;
+		
+		// go through all nodes, and create them!
+		for(let i in ClickyDrive.nodes )
+		{
+			ClickyDrive.nodes[i].currentTexture = this.add.image(ClickyDrive.nodes[i].location[0] ,ClickyDrive.nodes[i].location[1], ClickyDrive.nodes[i].name+'0');
+			// and set its scale.
+			ClickyDrive.nodes[i].currentTexture.setScale(ClickyDrive.nodes[i].size/ClickyDrive.nodes[i].currentTexture.height);
+			ClickyDrive.nodes[i].currentTexture.inputEnabled = true;
+			
+		}
 
 	},
 	
 	update:function()
 	{
 
-		//sweet nothing...
+		// Getting resources per second. Simple!
 		for  ( let item in ClickyDrive.resources)
 		{	
 			let toAdd = ClickyDrive.resources[item].perSecond/60;
@@ -129,15 +142,20 @@ var ClickyDrive =
 		}
 	},
 	
-	node:function(resource, ulocationX, locationY, size, enabled, pictures, particle, depletedParticle)
+	node:function(name, resource, locationX, locationY, enabled, textures, particle, depletedParticle)
 	{
 
-		this.location = {locationX,locationY,};
-		this.size = size
-		this.textures=pictures; // we will require multiple images, but for now...
-		this.enabled=enabled
-		this.particle=particle
-		this.depletedParticle=depletedParticle
+		this.name = name;
+		this.location = [locationX,locationY];
+		this.size = 300; // might just never change...
+		this.textures=textures;
+		this.enabled=enabled;
+		this.particle=particle;
+		this.depletedParticle=depletedParticle;
+		
+		ClickyDrive.nodes[name]=this;
+		
+		
 	}
 }
 
