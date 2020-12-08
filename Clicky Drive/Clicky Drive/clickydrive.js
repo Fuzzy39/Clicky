@@ -3,7 +3,7 @@ var ClickyDrive =
 {
 	
 	game:undefined,
-        versionString:"Clicky Drive v0.1.1.204 ",
+        versionString:"Clicky Drive v0.1.1.210 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'
@@ -84,6 +84,8 @@ var ClickyDrive =
 		// go through all nodes, and create them!
 		for(let i in ClickyDrive.nodes )
 		{
+			console.log(ClickyDrive.nodes[i].name+'0');
+			ClickyDrive.nodes[i].currentTexture = this.add.image(ClickyDrive.nodes[i].location[0] ,ClickyDrive.nodes[i].location[1], ClickyDrive.nodes[i].name+'1').setInteractive();
 			ClickyDrive.nodes[i].currentTexture = this.add.image(ClickyDrive.nodes[i].location[0] ,ClickyDrive.nodes[i].location[1], ClickyDrive.nodes[i].name+'0').setInteractive();
 			// and set its scale.
 			ClickyDrive.nodes[i].currentTexture.setScale(ClickyDrive.nodes[i].size/ClickyDrive.nodes[i].currentTexture.height);
@@ -131,26 +133,48 @@ var ClickyDrive =
 		{	
 			let toAdd = ClickyDrive.resources[item].perSecond/60;
 
-			if(ClickyDrive.resources[item].amountAvailible===0)
-			{ 
-				continue; // nothing left, just leave.
-			}
+			
 
 			// we can get everything?
-			if( toAdd <= ClickyDrive.resources[item].amountAvailible)
+			if( toAdd <= ClickyDrive.resources[item].amountAvailable)
 			{
 				ClickyDrive.resources[item].amount+= toAdd; // take all that's due
-				ClickyDrive.resources[item].amountAvailible-=toAdd // and remove it from the stache.
+				ClickyDrive.resources[item].amountAvailable-=toAdd // and remove it from the stache.
 			}
 			else
 			{
 				// exaust whatever is remaining.
-				ClickyDrive.resources[item].amount+=ClickyDrive.resources[item].amountAvailible;
-				ClickyDrive.resources[item].amountAvailible=0;	
+				ClickyDrive.resources[item].amount+=ClickyDrive.resources[item].amountAvailable;
+				ClickyDrive.resources[item].amountAvailable=0;	
 			}
+
+			
+
+			
+			// Graphically Deplete resources
+			
+			// first a small check.
+			if(ClickyDrive.resources[item].amountAvailable===0)
+			{
+				// this line of code is so long that it's a sin of some kind.
+				ClickyDrive.nodes[item].currentTexture.setTexture(ClickyDrive.nodes[item].location[0] ,ClickyDrive.nodes[item].location[1], ClickyDrive.nodes[item].name+''+ClickyDrive.nodes[item].textures.length-1).setInteractive();
+			}
+
+			// We need to descover the threshold size, this will determine how much to deplete. 
+			let thresholdSize = ClickyDrive.resources[item].totalAmountAvailable/(ClickyDrive.nodes[item].textures.length-1);
+			for(let i = 0; i<ClickyDrive.nodes[item].textures.length-1; i++)
+			{
+				// check if it is lower than threshold, then set it
+				if(ClickyDrive.resources[item].amountAvailable<=i*thresholdSize)
+				{
+					console.log( ClickyDrive.nodes[item].name+''+(i-1));
+					ClickyDrive.nodes[item].currentTexture.setTexture(ClickyDrive.nodes[item].location[0] ,ClickyDrive.nodes[item].location[1], ClickyDrive.nodes[item].name+''+(i-1)).setInteractive();
+				}
+			}
+			
 		}
 
-
+		
 		// Making nodes do some animation
 		// this feels like bad code, but I don't know what to do about it.
 		for(let i in ClickyDrive.nodes )
@@ -179,17 +203,17 @@ var ClickyDrive =
 	{
 		this.name = name;
 		
-		this.totalAmountAvailible=left;
-		this.amountAvailible=left;
+		this.totalAmountAvailable=left;
+		this.amountAvailable=left;
 		ClickyDrive.resources[name]=this;
 		this.amount=0;
 		this.perSecond=0;
 		this.perClick=1;
 		this.add=function(toAdd)
 		{
-			this.amountAvailible+=toAdd;
+			this.amountAvailable+=toAdd;
 			
-			this.totalAmountAvailible=this.amountAvailible;
+			this.totalAmountAvailable=this.amountAvailable;
 		},
 
 		this.mine = function()
@@ -197,26 +221,26 @@ var ClickyDrive =
 			// basically a copy of per second...
 			// if that bad practice?
 			let toAdd = this.perClick;
-			console.log(this.amountAvailible + " availiable before... Attepting to add "+toAdd);
-			if(this.amountAvailible===0)
+			console.log(this.amountAvailable + " availiable before... Attepting to add "+toAdd);
+			if(this.amountAvailable===0)
 			{ 
 				return; // nothing left, just leave.
 			}
 
 			// we can get everything?
-			if( toAdd <= this.amountAvailible)
+			if( toAdd <= this.amountAvailable)
 			{
 				this.amount+= toAdd; // take all that's due
-				this.amountAvailible-=toAdd // and remove it from the stache.
+				this.amountAvailable-=toAdd // and remove it from the stache.
 			}
 			else
 			{
 				// exaust whatever is remaining.
-				this.amount+=this.amountAvailible;
-				this.amountAvailible=0;	
+				this.amount+=this.amountAvailable;
+				this.amountAvailable=0;	
 			}
 
-			console.log(this.amountAvailible+" availiable! After...");
+			console.log(this.amountAvailable+" availiable! After...");
 		}
 	},
 	
