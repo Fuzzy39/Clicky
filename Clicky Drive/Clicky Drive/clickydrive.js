@@ -3,7 +3,7 @@ var ClickyDrive =
 {
 	
 	game:undefined,
-        versionString:"Clicky Drive v0.1.1.173 ",
+        versionString:"Clicky Drive v0.1.1.204 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'
@@ -78,18 +78,48 @@ var ClickyDrive =
 		
 		// Watermark things properly.
 		ClickyDrive.versionWatermark = this.add.text(ClickyDrive.vWatermarkX, ClickyDrive.vWatermarkY, ClickyDrive.versionString+ClickyDrive.versionAppend, ClickyDrive.vWatermarkStyle);
-    	ClickyDrive.versionWatermark.originX=-.5; // make it easier to deal with
+    		ClickyDrive.versionWatermark.originX=-.5; // make it easier to deal with
 		ClickyDrive.versionWatermark.originY=-.5;
 		
 		// go through all nodes, and create them!
 		for(let i in ClickyDrive.nodes )
 		{
-			ClickyDrive.nodes[i].currentTexture = this.add.image(ClickyDrive.nodes[i].location[0] ,ClickyDrive.nodes[i].location[1], ClickyDrive.nodes[i].name+'0');
+			ClickyDrive.nodes[i].currentTexture = this.add.image(ClickyDrive.nodes[i].location[0] ,ClickyDrive.nodes[i].location[1], ClickyDrive.nodes[i].name+'0').setInteractive();
 			// and set its scale.
 			ClickyDrive.nodes[i].currentTexture.setScale(ClickyDrive.nodes[i].size/ClickyDrive.nodes[i].currentTexture.height);
 			ClickyDrive.nodes[i].currentTexture.inputEnabled = true;
+			ClickyDrive.nodes[i].currentTexture.setTint(0xfafafa);
+			//set input things, animation, etc.
 			
+			// set stuff, animations in particular.
+
+    			ClickyDrive.nodes[i].currentTexture.on('pointerdown', function (pointer)
+			{
+				this.setTint(0xdddddd);
+				ClickyDrive.nodes[i].scale=1;
+				ClickyDrive.resources[ClickyDrive.nodes[i].name].mine(); // simple, right?
+			});
+
+			ClickyDrive.nodes[i].currentTexture.on('pointerout', function (pointer)
+			{
+				this.setTint(0xfafafa);
+				ClickyDrive.nodes[i].hovered=false;
+			});
+
+			ClickyDrive.nodes[i].currentTexture.on('pointerup', function (pointer)
+			{
+				this.setTint(0xffffff);
+				ClickyDrive.nodes[i].hovered=true;
+			});
+
+			ClickyDrive.nodes[i].currentTexture.on('pointerover', function (pointer)
+			{
+				this.setTint(0xffffff);
+				ClickyDrive.nodes[i].hovered=true;
+			});
+
 		}
+
 
 	},
 	
@@ -107,7 +137,7 @@ var ClickyDrive =
 			}
 
 			// we can get everything?
-			if( toAdd >= ClickyDrive.resources[item].amountAvailible)
+			if( toAdd <= ClickyDrive.resources[item].amountAvailible)
 			{
 				ClickyDrive.resources[item].amount+= toAdd; // take all that's due
 				ClickyDrive.resources[item].amountAvailible-=toAdd // and remove it from the stache.
@@ -119,19 +149,40 @@ var ClickyDrive =
 				ClickyDrive.resources[item].amountAvailible=0;	
 			}
 		}
+
+
+		// Making nodes do some animation
+		// this feels like bad code, but I don't know what to do about it.
+		for(let i in ClickyDrive.nodes )
+		{	
+			let speed = 0.02;
+			// make node larger, if needbe.
+			if( ClickyDrive.nodes[i].hovered && ClickyDrive.nodes[i].scale <1.10)
+			{
+				ClickyDrive.nodes[i].scale+=speed;
+				
+			}
+			if( !ClickyDrive.nodes[i].hovered && ClickyDrive.nodes[i].scale >1.0)
+			{
+				ClickyDrive.nodes[i].scale-=speed;
+				
+			}
+			ClickyDrive.nodes[i].currentTexture.setScale((ClickyDrive.nodes[i].size/ClickyDrive.nodes[i].currentTexture.height)*ClickyDrive.nodes[i].scale);
+					
+		}
 	},
 
 	
 	
 	// constructor
-	resource:function( name, amountAvailible)
+	resource:function( name, left)
 	{
 		this.name = name;
 		
-		this.totalAmountAvailible=amountAvailible;
-		this.amountAvailible=amountAvailible;
+		this.totalAmountAvailible=left;
+		this.amountAvailible=left;
 		ClickyDrive.resources[name]=this;
-		this.amount=this.amountAvailible;
+		this.amount=0;
 		this.perSecond=0;
 		this.perClick=1;
 		this.add=function(toAdd)
@@ -139,6 +190,33 @@ var ClickyDrive =
 			this.amountAvailible+=toAdd;
 			
 			this.totalAmountAvailible=this.amountAvailible;
+		},
+
+		this.mine = function()
+		{
+			// basically a copy of per second...
+			// if that bad practice?
+			let toAdd = this.perClick;
+			console.log(this.amountAvailible + " availiable before... Attepting to add "+toAdd);
+			if(this.amountAvailible===0)
+			{ 
+				return; // nothing left, just leave.
+			}
+
+			// we can get everything?
+			if( toAdd <= this.amountAvailible)
+			{
+				this.amount+= toAdd; // take all that's due
+				this.amountAvailible-=toAdd // and remove it from the stache.
+			}
+			else
+			{
+				// exaust whatever is remaining.
+				this.amount+=this.amountAvailible;
+				this.amountAvailible=0;	
+			}
+
+			console.log(this.amountAvailible+" availiable! After...");
 		}
 	},
 	
@@ -146,8 +224,10 @@ var ClickyDrive =
 	{
 
 		this.name = name;
+		this.hovered=false;
 		this.location = [locationX,locationY];
 		this.size = 300; // might just never change...
+		this.scale=1; // ranges between 1 and 1.1.
 		this.textures=textures;
 		this.enabled=enabled;
 		this.particle=particle;
