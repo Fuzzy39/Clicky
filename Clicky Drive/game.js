@@ -23,12 +23,3 @@ new ClickyDrive.node("gold", ClickyDrive.resources.gold, 800,450, true, ["Assets
 // start the game	
 ClickyDrive.game = new Phaser.Game(config);
 
-
-// why is this in here?
-var game = 
-{
-	click:function()
-	{
-		console.log("you clicked me!");
-	}
-}

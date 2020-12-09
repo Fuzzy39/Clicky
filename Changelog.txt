@@ -9,7 +9,7 @@ Finished Dec 2, 2020 9:16 PM
 ---------------------------
 107 lines of code (Pathetic!)
 
-Clicky Drive v0.1.0.94 - "Standalone"
+Clicky Drive v0.1.0.94 - "Standalone" Alpha 1
 Finished Dec 3, 2020 2:03 PM
 ---------------------------
 - Gold Node removed.

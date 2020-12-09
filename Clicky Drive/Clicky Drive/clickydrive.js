@@ -267,7 +267,7 @@ var ClickyDrive =
 		}
 	},
 	
-	node:function(name, resource, locationX, locationY, enabled, textures, particle, depletedParticle)
+	node:function(name, resource, locationX, locationY, enabled, textures, particle, depletedParticle,)
 	{
 
 		this.name = name;
