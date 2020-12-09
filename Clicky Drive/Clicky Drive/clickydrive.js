@@ -3,7 +3,7 @@ var ClickyDrive =
 {
 	
 	game:undefined,
-        versionString:"Clicky Drive v0.1.1.210 ",
+    versionString:"Clicky Drive v0.1.1.225 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'
@@ -84,8 +84,8 @@ var ClickyDrive =
 		// go through all nodes, and create them!
 		for(let i in ClickyDrive.nodes )
 		{
-			console.log(ClickyDrive.nodes[i].name+'0');
-			ClickyDrive.nodes[i].currentTexture = this.add.image(ClickyDrive.nodes[i].location[0] ,ClickyDrive.nodes[i].location[1], ClickyDrive.nodes[i].name+'1').setInteractive();
+			
+			
 			ClickyDrive.nodes[i].currentTexture = this.add.image(ClickyDrive.nodes[i].location[0] ,ClickyDrive.nodes[i].location[1], ClickyDrive.nodes[i].name+'0').setInteractive();
 			// and set its scale.
 			ClickyDrive.nodes[i].currentTexture.setScale(ClickyDrive.nodes[i].size/ClickyDrive.nodes[i].currentTexture.height);
@@ -157,20 +157,37 @@ var ClickyDrive =
 			if(ClickyDrive.resources[item].amountAvailable===0)
 			{
 				// this line of code is so long that it's a sin of some kind.
-				ClickyDrive.nodes[item].currentTexture.setTexture(ClickyDrive.nodes[item].location[0] ,ClickyDrive.nodes[item].location[1], ClickyDrive.nodes[item].name+''+ClickyDrive.nodes[item].textures.length-1).setInteractive();
+				ClickyDrive.nodes[item].currentTexture.setTexture(ClickyDrive.game.textures.list[ClickyDrive.nodes[item].name+''+(ClickyDrive.nodes[item].textures.length-1)]).setInteractive();
+			
 			}
-
-			// We need to descover the threshold size, this will determine how much to deplete. 
-			let thresholdSize = ClickyDrive.resources[item].totalAmountAvailable/(ClickyDrive.nodes[item].textures.length-1);
-			for(let i = 0; i<ClickyDrive.nodes[item].textures.length-1; i++)
+			else
 			{
-				// check if it is lower than threshold, then set it
-				if(ClickyDrive.resources[item].amountAvailable<=i*thresholdSize)
+				// 
+				//
+				//
+				// We need to descover the threshold size, this will determine how much to deplete. 
+				// this code ought to be considered arcane
+				let thresholdSize = ClickyDrive.resources[item].totalAmountAvailable/(ClickyDrive.nodes[item].textures.length-1);
+				
+				for(let i =0; i<ClickyDrive.nodes[item].textures.length; i++)
 				{
-					console.log( ClickyDrive.nodes[item].name+''+(i-1));
-					ClickyDrive.nodes[item].currentTexture.setTexture(ClickyDrive.nodes[item].location[0] ,ClickyDrive.nodes[item].location[1], ClickyDrive.nodes[item].name+''+(i-1)).setInteractive();
+					
+					// check if it is higher than threshold, then set it
+					if(ClickyDrive.resources[item].amountAvailable <= (ClickyDrive.nodes[item].textures.length-1-i)*thresholdSize)
+					{
+					
+						ClickyDrive.nodes[item].currentTexture.setTexture(ClickyDrive.game.textures.list[ClickyDrive.nodes[item].name+''+(i)]).setInteractive();
+					
+					}
+					else
+					{
+						break;
+					}
+					
 				}
 			}
+			
+			
 			
 		}
 
@@ -179,6 +196,10 @@ var ClickyDrive =
 		// this feels like bad code, but I don't know what to do about it.
 		for(let i in ClickyDrive.nodes )
 		{	
+			if(ClickyDrive.resources[i].amountAvailable===0)
+			{
+				continue;
+			}
 			let speed = 0.02;
 			// make node larger, if needbe.
 			if( ClickyDrive.nodes[i].hovered && ClickyDrive.nodes[i].scale <1.10)
@@ -194,6 +215,8 @@ var ClickyDrive =
 			ClickyDrive.nodes[i].currentTexture.setScale((ClickyDrive.nodes[i].size/ClickyDrive.nodes[i].currentTexture.height)*ClickyDrive.nodes[i].scale);
 					
 		}
+		
+		
 	},
 
 	
