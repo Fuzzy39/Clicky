@@ -9,6 +9,7 @@ Finished Dec 2, 2020 9:16 PM
 ---------------------------
 107 lines of code (Pathetic!)
 
+
 Clicky Drive v0.1.0.94 - "Standalone" Alpha 1
 Finished Dec 3, 2020 2:03 PM
 ---------------------------
@@ -19,6 +20,7 @@ Finished Dec 3, 2020 2:03 PM
 ---------------------------
 117 lines of code (Took stuff out, put stuff in, over all, same same)
 
+
 Clicky Drive v0.1.1.128 - "DOM UI"
 Finished Dec 5, 2020 10:39 PM
 -----------------------------
@@ -27,3 +29,21 @@ Finished Dec 5, 2020 10:39 PM
 - that's basically it, pretty simple.
 -----------------------------
 100 lines of code (Somehow less than the first version? I have no clue how that works.)
+
+
+0.1.2 
+Clicky Drive v0.1.2.243 - 'Resourceful'
+Finished Dec 9, 2020 6:39 PM
+-----------------------------
+  - Now using  strict mode now, that was important
+  - implemented resources
+		- they have amount, /sec and /click
+		- can be depleted, or not
+		- can be disabled
+  - implemented Nodes
+		- they can be drawn in many images as their corresponding resources deplete
+		- can be clicked with animation
+  - add update hook ins, so you can have the engine run code
+-------------------------------
+346 lines of code
+
