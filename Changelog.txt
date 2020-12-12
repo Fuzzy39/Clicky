@@ -31,7 +31,6 @@ Finished Dec 5, 2020 10:39 PM
 100 lines of code (Somehow less than the first version? I have no clue how that works.)
 
 
-0.1.2 
 Clicky Drive v0.1.2.243 - 'Resourceful'
 Finished Dec 9, 2020 6:39 PM
 -----------------------------
@@ -47,3 +46,16 @@ Finished Dec 9, 2020 6:39 PM
 -------------------------------
 346 lines of code
 
+
+Clicky Drive v0.1.3.287 - 'Shiny'
+Finished Dec 12, 2020 5:48 PM ( this shouldn't have taken 3 days )
+---------------------------------
+	- implemented node Fragments
+		- When nodes are clicked they emit Fragments
+		- the amount of Fragments emitted scales with Resource.perclick.
+	- implemented node glow
+		- a rotating image can be drawn behind the node.
+		- it stops existing when the node is depleted.
+	- added 'resources' example ( previous versions' test code )
+--------------------------------	
+474 lines of code
