@@ -59,3 +59,18 @@ Finished Dec 12, 2020 5:48 PM ( this shouldn't have taken 3 days )
 	- added 'resources' example ( previous versions' test code )
 --------------------------------	
 474 lines of code
+
+Clicky Drive v0.1.3.287 - 'Free Market'
+Finished Dec 13, 2020 10:31 PM ( this should've taken 3 days )
+----------------------------------
+	- implemented items
+		- Items can act as upgrades, with some code running once, or as autos, with code running every frame.
+		- cost rises exponetially set by costExponent.
+		- max amount is possible to set.
+		- base resouces per second can be multiplyed wit corrisponding multiplyer.
+	- added resource perSecondMultiplyer
+	- added Fragments and glow example
+	- restructured examples and test code
+--------------------------------
+594 lines of code
+

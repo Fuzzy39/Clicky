@@ -1,30 +1,30 @@
-Clicky Drive Roadmap as of December 9th, 2020
+Clicky Drive Roadmap as of December 13th, 2020
 --------------------------------------------------
 
 
 
-0.1.4 'Helping Hands'
-	- implement autos and upgrades
-		-figure out how this should work, keep prospector in mind
+
 
 0.1.5 'Consistent'
 	- implement saving
 	- ensure that the engine works when out of focus
 	- add hook ins
+	- and pretty printing
 
 
 
 0.2.0 'Sturdy' ( Alpha 2 and Alpha 3 )
   - Clicky 3.1 will be made with this version.
   - documentation
-  - Check to make sure everything works properly
+  - Make sure errors are thrown intead of silently failing.
+  - clean up create function.
   
 
 0.2.X / 0.3.0 ( Beta 1 and 2 ) 
   - Clicky 4 can be made with this version.
   - Implement tabs and presets/templates (use phaser scenes?)
   - Implement events
-  - implement sounds ( maybe )
+
   - Tooltips?
   - scrollbars?
   - implement scenes
@@ -33,6 +33,7 @@ Clicky Drive Roadmap as of December 9th, 2020
 
 0.3.X / 1.0.0 ( beta 3 and Finished)
   - Figure out any additional requirements for Clicky 5, add them.
+	 - implement sounds ( maybe )
 	- 'unlocking' resources
 	- Currency system
 	- supply/demand system

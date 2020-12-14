@@ -1,7 +1,7 @@
 "use strict";
 // Style Watermark
 
-ClickyDrive.versionAppend="Running Resources Example";
+ClickyDrive.versionAppend="| Resources and Nodes";
 ClickyDrive.vWatermarkStyle.strokeThickness=.5;
 ClickyDrive.vWatermarkStyle.fontSize=20;
 // Select Background.ui

@@ -4,9 +4,9 @@ function getRndInteger( min, max ) {  return Math.floor( Math.random( ) * ( max 
 
 var ClickyDrive =
 {
-	
+
 	game:undefined,
-    versionString:"Clicky Drive v0.1.3.287 ",
+    versionString:"Clicky Drive v0.1.4.316 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'
@@ -28,6 +28,11 @@ var ClickyDrive =
 	nodes:
 	{
 		// user defined.
+	},
+	
+	items:
+	{
+		//user defined.
 	},
 
 	preload: function()
@@ -75,7 +80,7 @@ var ClickyDrive =
 
 	create:function()
 	{
-		
+		// this needs to be cleaned up!
 		
 		//background
 		if(ClickyDrive.background!=undefined)
@@ -157,6 +162,11 @@ var ClickyDrive =
 
 	},
 	
+	
+	
+	
+	
+	
 	update:function()
 	{
 
@@ -164,7 +174,8 @@ var ClickyDrive =
 		for  ( let i in ClickyDrive.resources)
 		{	
 	
-			// make some of each resource.
+			// Determine perSecond and add it.
+			ClickyDrive.resources[i].update();
 			ClickyDrive.resources[i].make(ClickyDrive.resources[i].perSecond/60);
 	
 		}
@@ -183,6 +194,12 @@ var ClickyDrive =
 					
 		}
 		 
+		for (let i in ClickyDrive.items)
+		{
+				ClickyDrive.items[i].update();
+				ClickyDrive.items[i].onUpdate();
+		}
+		
 		for(let i in ClickyDrive.fragments)
 		{
 			if(ClickyDrive.fragments[i].animate!=undefined)
@@ -219,6 +236,7 @@ var ClickyDrive =
 		this.enabled=enabled;
 		this.amount=0;
 		this.perSecond=0;
+		this.perSecondMultipler=1;
 		this.perClick=1;
 		
 		// adds to availaible, not to current count.
@@ -291,6 +309,29 @@ var ClickyDrive =
 			
 			return true;
 			
+		},
+		
+		this.update = function()
+		{
+			// calculate per second.
+			
+			this.perSecond=0;
+			for(let i in ClickyDrive.items)
+			{
+			
+				for(let j in ClickyDrive.items[i].perSecond)
+				{
+					if(j==this.name)
+					{
+						this.perSecond+=ClickyDrive.items[i].perSecond[j];
+					}
+				}
+			}
+			this.perSecond*=this.perSecondMultipler;
+			
+			// per second Claculated, add to this.
+			
+			
 		}
 	},
 	
@@ -328,15 +369,16 @@ var ClickyDrive =
 				if(this.texture!= undefined)
 				{
 					this.texture.angle+=this.rotationSpeed;
-				}
 				
-				if(ClickyDrive.resources[this.resource].amountAvailable!=0)
-				{
-					this.texture.setScale(this.scale);
-				}
-				else
-				{
-					this.texture.setScale(0);
+				
+					if(ClickyDrive.resources[this.resource].amountAvailable!=0)
+					{
+						this.texture.setScale(this.scale);
+					}
+					else
+					{
+						this.texture.setScale(0);
+					}
 				}
 				
 			}
@@ -438,6 +480,84 @@ var ClickyDrive =
 			
 		}
 		
+		
+	},
+	
+	item:function(name, baseCosts, costExponent, basePerSecond)
+	{
+		this.name = name;
+		ClickyDrive.items[name]=this;
+		this.maxAmount=Infinity;
+		this.baseCosts=baseCosts; // formatted like  {gold:20,crab:10}
+		this.costExponent=costExponent;
+		this.basePerSecond=basePerSecond; // formatted like costs
+		this.perSecondMultiplier = 1;
+		
+		this.amount=0;
+		this.costs= {};
+		this.perSecond= {};
+		
+		
+
+		this.update=function()
+		{
+			
+			for( let i in this.basePerSecond)
+			{	
+				
+				this.perSecond[i] = this.basePerSecond[i]*this.amount*this.perSecondMultiplier;
+				
+			}
+			
+			for( let i in this.baseCosts)
+			{
+				
+				this.costs[i]=Math.floor((this.costExponent**this.amount)*this.baseCosts[i]);
+				
+				
+			}
+			
+			
+			
+		}
+		
+		this.onUpdate=function() //  can be user defined.
+		{
+			
+		} 
+		
+		
+		
+		this.purchase=function()
+		{
+			if(this.amount===this.maxAmount)
+			{
+				return false;
+			}
+			
+			for(let i in this.costs)
+			{
+				
+				if(ClickyDrive.resources[i].amount < this.costs[i] )
+				{
+					return false;
+				}
+			}
+			
+			for(let i in this.costs)
+			{
+				
+				ClickyDrive.resources[i].amount -=this.costs[i];
+				
+			}
+			
+			this.amount++;
+			this.update();
+			this.onPurchase();
+			return true;
+		}
+		
+		this.onPurchase=function(){}; // user defined.
 		
 	}
 }
