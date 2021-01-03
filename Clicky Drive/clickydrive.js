@@ -1,12 +1,44 @@
 "use strict";
 // utils
 function getRndInteger( min, max ) {  return Math.floor( Math.random( ) * ( max - min ) ) + min;  }
+function prettyPrint(num) // format a large number nicely
+{
+	let toPrint = Math.floor(num);
+	if(toPrint < 1000)
+	{
+		return toPrint.toString(); // just toss back the number
+	}
+	
+	if(toPrint < 10000)
+	{
+		let string = toPrint.toString();
+		return string.charAt(0)+","+string.substring(1,4); // add a comma.
+	}
+	
+	if(toPrint < 1000000 ) // 1 mil
+	{
+		return (toPrint/1000.0).toFixed(2)+"K"; // k, like, 33.36K = 33,3600
+	}
+	
+	if(toPrint < 1000000000) // 1 billion
+	{
+		return (toPrint/1000000.0).toFixed(2)+"M";
+	}
+	
+	if(toPrint < 1000000000000) // 1 trillion
+	{
+		return (toPrint/1000000000.0).toFixed(2)+"B";
+	}
+	
+	return (toPrint/1000000000000.0).toFixed(2)+"T";
+	
+}
 
 var ClickyDrive =
 {
 
 	game:undefined,
-    versionString:"Clicky Drive v0.1.4.316 ",
+    versionString:"Clicky Drive v0.1.4.319 ",
 	versionAppend:"",
 	versionWatermark:undefined,
 	vWatermarkX:0, // in 'pixels'

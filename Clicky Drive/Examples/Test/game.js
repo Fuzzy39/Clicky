@@ -1,6 +1,6 @@
 "use strict";
 // Style the version Watermark
-let version = "130";
+let version = "131";
 console.log("test #"+version);
 ClickyDrive.versionAppend="Running Test #"+version;
 
@@ -26,13 +26,13 @@ goldNode.glow.texture="Assets/Glow.png";
 goldNode.glow.scale=3;
 
 let prospect = new ClickyDrive.item('prospect', {'gold':5}, 1, {"gold":0});
-prospect.onPurchase= function() { gold.add(30); }
+prospect.onPurchase= function() { gold.add(1000); }
 
-let miner = new ClickyDrive.item('miner', {'gold':10}, 1.1, {"gold":1});
+let miner = new ClickyDrive.item('miner', {'gold':10}, 1.1, {"gold":10});
 
 ClickyDrive.hookins.update = function()
 {
-	ClickyDrive.ui.getChildByID("gold").innerHTML="Gold: "+Math.floor(gold.amount)+" | GPS: "+ gold.perSecond;
+	ClickyDrive.ui.getChildByID("gold").innerHTML="Gold: "+prettyPrint(gold.amount)+" | GPS: "+ gold.perSecond;
 	ClickyDrive.ui.getChildByID("miner").innerHTML="Miner ("+miner.costs.gold+"g)";
 	ClickyDrive.ui.getChildByID("amount").innerHTML="Owned: "+miner.amount;
 }
