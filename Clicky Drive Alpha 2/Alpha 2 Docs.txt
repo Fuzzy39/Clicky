@@ -1,0 +1,262 @@
+Documentation For Clicky Drive Alpha 2 ( v 0.2.0.355 )
+
+Summary:
+--------------------------
+Clicky Drive is a game engine designed to support my 'clicky' series of games.
+At the present moment it isn't exactly presentable for public use, and it's features aren't particularly well thought out. The engine hasn't been used for many games.
+So if you've chosen to help me test this early alpha of the engine, thanks. Please report any issues with the engine not matching the behavior outlined here; it helps a lot.
+If you want to ask for other features, I can't garruntee anything. but I would also appreciate it.
+
+Some general info / how to set up:
+
+Clicky Drive is built on Phaser v3.24.1 (phaser.io), which, along with several examples of the engine's use, is included with the engine.
+it is namespaced as ClickyDrive, and there are a few other things that are in the namespace, aside from what phaser adds. 
+Here is a list:
+	config        | Shouldn't be changed and is required for Phaser.
+	getRndInteger | A utility function that really shouldn't be there. gets a random int (inclusive) I think?
+	prettyPrint   | Another untility function that should be part of Clicky Drive. formats a number in pretty ways:
+				  | it rounds the number, and if less than 10k, does nothing else, if more reads in XX.XXK, then M, B, and T for millions, billions, and Trillions.
+	ClickyDrive   | The engine itself.
+
+I will offer a small guide to the unitiated as to set up clicky drive so that it can run locally:
+
+A localhost web host is required for ClickyDrive to run locally. This is because when most browsers run files, they are very restricted as to what files they can access due to security.
+There are several ways to set this up, but my prefered way requires python. If you have Python 3 installed, use your prefered shell, navigate to the clicky drive folder, and run:
+	python -m https.server PORT
+	where PORT is a number, I use 1337 for no particular reason. It should be above 1024, but I suspect localhost isn't being used for much, so it probably doesn't matter. use a different one if there are issues.
+you can then use your prefered browser and navigate to localhost:PORT
+if you do not recive a 404, then all is well.
+You should be able to navigate to an example, and if it looks to be working properly, then you have setup a local host properly.
+	
+To set up your own Clicky Drive project, you should mimic Example 0: project setup.
+keep in mind that the game is 1600 by 900 pixels, but it scales automatically, so you shouldn't worry about that.
+
+
+
+
+
+
+Now, on to proper documentation:
+shoddy documentation, but better than nothing.
+
+
+ClickyDrive Fields:
+----------------------------------------------
+
+
+	game:
+		Type: Phaser.Game(?)
+		Description: don't touch, Phaser property. I don't remember what it does to be honest.
+		
+	versionString:
+		Type: string
+		Description: Don't set to different value. The engines' version for identification purposes.
+			Alpha 2 identifies as "Clicky Drive v0.2.0.355"
+		
+	versionID:
+		Type: string
+		Description: Don't set to different value. The engine's version for save compatablity purposes. 
+			Alpha 2 identifies as "Alpha_7".
+	
+	gameID:
+		Type: string 
+		Description: Define a string to enable the engine to save your game. 
+		It's a good idea to put the name and version of your game, in case you want to break save compatablity.
+		
+	versionAppend:
+		Type: string
+		Description: Define a string to add to the watermark that shows Clickydrive's version.
+	
+	versionWatermark:
+		Type: phaser's text element.
+		Description: Do not touch. It is the phaser object for the watermark.
+	
+	WatermarkX and WatermarkY:
+		Type: number
+		Description: sets the X and Y values of the version watermark.
+		
+	WatermarkStyle:
+		Type: Phaser's Text style
+		Description: sets the style of  the version Watermark. by default:
+			fontFamily 		|'"Arial"'
+			fontSize   		|'20pt'
+			color	   		|'white'
+			strokeThickness |.5
+	
+	aspectRatio:
+		Type:number
+		Description: sets the aspect ratio of the game. Should not be changed, I don't think.
+	
+	save:
+		Type: localStorage
+		Desription: The current save game.
+			Has the following properites:
+			Version: Equal to ClickyDrive's versionID
+			gameVersion: Equal to gameID
+			and the amount, amountAvailible, and totalAmountAvailable of every resource. 
+			and the amount of every item.
+	
+	lastUpdated: 
+		Type: number
+			Do not edit. Used in checking for inactivity.
+	
+	tickCounter:
+		Type: number
+			Do not edit. Used in saving, and can be used in any event that should repeat.
+			Increments roughly 60 times per second, resets every tickCounterLimit.
+			Does not increment when game tab is not in focus.
+	
+	tickCounterLimit: how many ticks tickcounter will increment before it resets. default is 10 minutes.
+	
+	background: put the string to the relative file location of the background here.
+	ui:put the string to the relative file location of a HTML document describing the ui
+	
+	fragments:
+		Type: array
+		An array of fragments. There is no need to edit it.
+	
+	resources:
+		Type: object.
+		Contains all user defined resources.
+	
+	nodes:
+		Type: object
+		Contains all user defined nodes.
+		
+	items:
+		Type: object
+		Contains all user defined items.
+	
+	hookins:
+		Type: object
+		Contains 3 hookin functions that the user can define.
+		update, that runs every tick. includes a tickcounter that automatically updates( and is the same as tickCounter)
+		create, to define phaser sprites and etc.
+		and preload, to define graphics or assets for Phaser.
+	
+	
+	Functions and Objects:
+	----------------------------------
+	saveGame():
+		Saves the game. Automatically runs once per second.
+	
+	newSave():
+	clears the save. Note that that doesn't mean there is no save, because a new game will be saved afterward.
+	No information is cleared, effectively.
+	
+	loadSave(): 
+		Loads the save automatically run on start.
+		
+	preload()
+		Phaser Function. Loads assets.
+	
+	create():
+		Phaser Function.
+	
+	update():
+		Phaser Function.
+		Effectively the main method.
+		runs 60 times per second.
+		each time it runs is called a tick.
+	
+	
+	resoucre(name, left, enabled) | constructor
+		fields: 
+			name: 
+				do not edit after Construction. Name in the resources object.
+			
+			totalAmountAvailable:
+				Don't touch. Use the Add function to add to it.
+				
+			AmountAvailable:
+				Don't touch. Use Add to add to it.
+			
+			enabled: boolean. Default true. enables/disables the resource, disabling all nodes, and stoping GPS gain.
+			
+			amount: the amount of the resource the player has.
+			
+			perSecond: the amount of the resource gained per second. do not edit, this is automatically calculated. if you want to add some, use an item.
+			
+			perSecondMultiplier: a times multiplier  on perSecond.
+			
+			perClick: the amount of resource gained per click on a node.
+			
+			
+			functions:
+			
+			Add(toAdd) : adds toAdd to availible resource. note: doesn't add any amount, use Make.
+			
+			mine(x,y): mines the resource from a node, do not use.
+			
+			make(toAdd) Makes toAdd if the resouce is available.
+			
+			update: do not use. updates per second.
+	
+	node( name, locationX, locationY, textures)
+		a node is the graphical representation of a resource. name is the same name as the resource,
+		locationX and Y is the physical location of the middle of the image, textures is an array of strings to texstures as the resource depletes.
+		
+		fields:
+		
+			name: do not edit. same name as resource.
+			
+			hovered: do not edit. 
+			
+			location: array x, y of location.
+			
+			size: size of node. Default 300.
+			
+			scaleLimits: array of how the node can scale when interacted with. minimum of [1,1.1]
+			
+			scaleSpeed: controls speed of scaling. default .02.
+			
+			fragmentScale: the Scale of fragments.
+			
+			fragment:	texture of fragment, if added.
+			
+			depletedFragment: texture of depleted Fragment, if added.
+			
+		Objects:
+			glow:
+				glowing texture, drawn behind the node.
+				
+				texture: the texture used by the glow.
+				scale: the size of the glow default 1.
+				rotationSpeed: the speed of rotation, default 1.
+		
+		functions:
+			
+			determineDepletionState(): Do not use.
+			animate(): do not use.
+		
+	
+	fragment( fragment, positionX, positionY, scale):
+		Don't use. editable settings are included in coresponding node.
+		
+		
+		
+	item(name, baseCosts, costExponent, basePersecond)
+		Items represent purchasable upgrades or miners that can operate on each tick or just once.
+		
+		name: the name, duh.
+		baseCosts: an object like {resource1:10, resource2:20}
+		
+		costExponent: this exponent is multiplied for the amount of the item.
+		
+		basePersecond: the base of resources per second. formated like baseCosts.
+		
+		maxAmount: the maximum amount of times the upgrade can be purchased.
+		
+		amount: the amount of the item that has been purchased. This can be edited.
+		
+		costs: the current costs: do not edit
+		
+		perSecond: the current resources perSecond
+		
+		update(): do not touch
+		
+		onUpdate(): user defined, runs once per tick
+		
+		purchase(): attempts to purchase the item. don't edit.
+		
+		onPurchase(): user defined, runs on purchase if it was successful.

@@ -74,3 +74,16 @@ Finished Dec 13, 2020 10:31 PM ( this should've taken 3 days )
 --------------------------------
 594 lines of code
 
+
+Clicky Drive v0.2.0.355 - 'Alpha 2'
+Finished Jan 9th, 2020 5:24 PM 
+----------------------------------
+  - implemented saving
+	- it is enabled by setting ClickyDrive.gameID 
+  - ensured that the engine works when out of focus
+  - added hook ins 
+	- enables you to use phaser through the engine, basically.
+  - added pretty printing of large numbers 
+  - wrote some (shoddy) documentation
+----------------------------------
+772 lines of code

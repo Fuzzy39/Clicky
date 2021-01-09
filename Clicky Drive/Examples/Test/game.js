@@ -1,6 +1,6 @@
 "use strict";
 // Style the version Watermark
-let version = "131";
+let version = "134";
 console.log("test #"+version);
 ClickyDrive.versionAppend="Running Test #"+version;
 
@@ -9,6 +9,9 @@ ClickyDrive.background='Assets/Background.png';
 
 // set ui
 ClickyDrive.ui='UI.html';
+
+// enable Saving
+ClickyDrive.gameID="Test";
 
 // let's attempt to add a new resource, gold
 let gold = new ClickyDrive.resource("gold", 30, true);

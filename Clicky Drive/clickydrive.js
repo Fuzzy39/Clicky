@@ -38,14 +38,19 @@ var ClickyDrive =
 {
 
 	game:undefined,
-    versionString:"Clicky Drive v0.1.4.319 ",
+    versionString:"Clicky Drive v0.2.0.355 ",
+	versionID:"Alpha_7",
+	gameID:undefined,
 	versionAppend:"",
 	versionWatermark:undefined,
-	vWatermarkX:0, // in 'pixels'
-	vWatermarkY:0,
-	vWatermarkStyle:{ fontFamily: '"Arial"', fontSize:'20pt', color:'white', strokeThickness:.5 },
+	WatermarkX:0, // in 'pixels'
+	WatermarkY:0,
+	WatermarkStyle:{ fontFamily: '"Arial"', fontSize:'20pt', color:'white', strokeThickness:.5 },
     aspectRatio:16/9,
-	
+	save:window.localStorage,
+	lastUpdated:Date.now(), // when the game was last updated.
+	tickCounter:0,
+	tickCounterLimit:60*60*10, // 10 minutes at 60 tps.
 	
 	background:undefined,
 	ui:undefined,
@@ -66,7 +71,110 @@ var ClickyDrive =
 	{
 		//user defined.
 	},
-
+	
+	hookins:
+	{
+		update:function(tickCounter){},
+		create:function(){},
+		preload:function(){}
+	},
+	
+	
+	
+	
+	// saves the game to save
+	saveGame: function()
+	{
+		// load the amount and amountleft of all resources.
+		if ( ClickyDrive.gameID == undefined)
+		{
+			return false;
+		}
+		
+		for  ( let i in ClickyDrive.resources)
+		{	
+		
+			// get the amount.
+			ClickyDrive.save.setItem( ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amount", Math.round(ClickyDrive.resources[i].amount) );
+			
+			//get the amount availiable and left.
+		    ClickyDrive.save.setItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amountAvailable", 	Math.round(ClickyDrive.resources[i].amountAvailable) );
+			
+			ClickyDrive.save.setItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".totalAmountAvailable", Math.round(ClickyDrive.resources[i].totalAmountAvailable) );
+			
+			
+		}
+		
+		// and items.
+		for ( let i in ClickyDrive.items)
+		{
+			
+			ClickyDrive.save.setItem(ClickyDrive.gameID+".items."+ClickyDrive.items[i].name+".amount", ClickyDrive.items[i].amount );
+		}
+		return true;
+		
+	},
+	
+	
+	newSave: function()
+	{
+		ClickyDrive.save.clear();
+		ClickyDrive.save.setItem("Version", ClickyDrive.versionID);
+		ClickyDrive.save.setItem("gameVersion", ClickyDrive.gameID);
+	},
+	
+	loadGame: function()
+	{
+		// to insure there is no accidental windfall.
+		ClickyDrive.lastUpdated = Date.now();
+				
+		// check for correct engine version.
+		if(ClickyDrive.save.getItem('Version')==ClickyDrive.versionID)
+		{
+			// make sure this is the correct version of the game as well.
+			if(ClickyDrive.gameID!=undefined & ClickyDrive.save.getItem('gameVersion')==ClickyDrive.gameID)
+			{
+				
+				
+				
+				// load the amount and amountleft of all resources.
+				for  ( let i in ClickyDrive.resources)
+				{	
+		
+					// get the amount.
+					ClickyDrive.resources[i].amount = parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amount"));
+			
+					
+					//get the amount availiable and left.
+					ClickyDrive.resources[i].amountAvailable=parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amountAvailable"));
+					
+					ClickyDrive.resources[i].totalAmountAvailable=parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".totalAmountAvailable"));
+					
+					
+				}
+				// and items.
+				for ( let i in ClickyDrive.items)
+				{
+					ClickyDrive.items[i].amount =  parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".items."+ClickyDrive.items[i].name+".amount"));
+				}
+				
+				return true;
+			}
+			else
+			{
+				ClickyDrive.newSave();
+				return false;
+			}
+			
+		}
+		else
+		{
+			ClickyDrive.newSave();
+			return false;
+		}
+		
+	},
+	
 	preload: function()
 	{ 
 		
@@ -107,6 +215,8 @@ var ClickyDrive =
 			}
 			
 		}
+		
+		ClickyDrive.hookins.preload();
 	},
 		
 
@@ -137,8 +247,8 @@ var ClickyDrive =
 		}
 		
 		// Watermark things properly.
-		ClickyDrive.versionWatermark = this.add.text(ClickyDrive.vWatermarkX, ClickyDrive.vWatermarkY, ClickyDrive.versionString+ClickyDrive.versionAppend, ClickyDrive.vWatermarkStyle);
-    		ClickyDrive.versionWatermark.originX=-.5; // make it easier to deal with
+		ClickyDrive.versionWatermark = this.add.text(ClickyDrive.WatermarkX, ClickyDrive.WatermarkY, ClickyDrive.versionString+ClickyDrive.versionAppend, ClickyDrive.WatermarkStyle);
+    	ClickyDrive.versionWatermark.originX=-.5; // make it easier to deal with
 		ClickyDrive.versionWatermark.originY=-.5;
 		
 		
@@ -190,6 +300,16 @@ var ClickyDrive =
 			
 
 		}
+		
+		
+		
+		// Attempt to load the save.
+		ClickyDrive.loadGame()
+		
+		
+		// if it cannot be loaded it will be worried about later.
+		// never, actually.
+		ClickyDrive.hookins.create();
 
 
 	},
@@ -201,7 +321,13 @@ var ClickyDrive =
 	
 	update:function()
 	{
-
+		// update tick counter, this is for things that repeat every tick.
+		ClickyDrive.tickCounter+=1;
+		
+		// these will only be signifigantly different when the game is out of focus.
+		let now = (Date.now()/1000);
+		let before = (ClickyDrive.lastUpdated/1000);
+		
 		// Getting resources per second. Simple!
 		for  ( let i in ClickyDrive.resources)
 		{	
@@ -209,9 +335,16 @@ var ClickyDrive =
 			// Determine perSecond and add it.
 			ClickyDrive.resources[i].update();
 			ClickyDrive.resources[i].make(ClickyDrive.resources[i].perSecond/60);
+			
+			// and make some cash money from inactivity, if needbe.
+			ClickyDrive.resources[i].make(ClickyDrive.resources[i].perSecond*Math.round(now-before));
 	
 		}
 
+		
+		
+		
+		
 		
 		// Making nodes do some animation
 		// this feels like bad code, but I don't know what to do about it.
@@ -240,17 +373,30 @@ var ClickyDrive =
 			}
 		}
 		
-		ClickyDrive.hookins.update();
+		
+		
+		// save the game, once a second.
+		if(ClickyDrive.tickCounter%60 == 0)
+		{
+			ClickyDrive.saveGame();
+		}
+		
+		ClickyDrive.hookins.update(ClickyDrive.tickCounter);
 			 
+
+
+
+		// If the tick counter exceeds its limit, return it to 0.
+		if(ClickyDrive.tickCounter>=ClickyDrive.tickCounterLimit)
+		{
+			ClickyDrive.tickCounter = 0;
+		}
 			
-			
+		// update now.
+		ClickyDrive.lastUpdated=Date.now();	
 		
 	},
 	
-	hookins:function()
-	{
-		this.update = function(){};
-	},
 	
 	
 	
