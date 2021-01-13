@@ -1,15 +1,16 @@
 
 	
-<div style="position:absolute; top:0px; left:0px;padding:0px; width:16--px; background-color: rgba(0,0,0,.0)">
-	<h1 id="gold" style="position:absolute; top:80px; width:1600px; text-align:center;">GOLD!</h1>
-	
-	
+<div style="position:absolute; top:0px; left:0px;padding:0px; width:16--px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2)">
 
-	<h1 id="gold" style="position:absolute; top:80px; width:1600px; text-align:center;">Gold?</h1>
-	<h3 id="gold" style="font-size:170%; position:absolute; top:155px; width:1600px; text-align:center;">Gold Per Second</h3>
-	<h3 id="gold" style="font-size:250%; position:absolute; top:700px; width:1600px; text-align:center; z-index:2;background-color:rgba(0,0,0,.1)">Depleted!</h3>
+	<div style="position:absolute; top:50px; width:1600px; height:149px; box-shadow:0px 0px 20px rgba(0,0,0,.5); z-index:-1;background-color:rgba(255,255,255,.2);backdrop-filter: blur(1px);">
+		<h1 id="gold" style="position:absolute; top:20px; width:1600px; text-align:center;">Gold?</h1>
+		<h3 id="gps" style="font-size:170%; position:absolute; top:95px; width:1600px; text-align:center;">Gold Per Second</h3>
+	</div>
+	
+	<h3 id="depleted"  class="hidden"style="font-size:250%; position:absolute; top:700px; width:1600px; text-align:center; z-index:2;background-color:rgba(0,0,0,.1)">Depleted!</h3>
 
 	<div class="header" style=""><h2>Header</h2></div>
+	<img class="horBar" style="left:0px; top:105px;" src="Assets/Gui/horizontalBar.png">
 	<div class="sidePanel" style="top:150px">
 		<div class="button" style=" top:000px;" >
 			<div class="buttonContent"><h3>An Item?</h3><br><p>Just waiting to be unveiled.</p></div>
@@ -32,8 +33,11 @@
 			<img class="icon" src="Assets/Gui/Icons/noIcon.png">
 		</div>
 	</div>
+	
+	
 	<img class = "vertbar" src="Assets/Gui/vertBar.png" style="left:375px;">
-
+	<div class="header" style="left:1225px"><h2>Header</h2></div>
+	<img class="horBar"style="left:1225px; top:105px;" src="Assets/Gui/horizontalBar.png">
 	<div class="sidePanel" style="top:150px; left:1225px;">
 		<div class="button" style=" top:000px;" >
 			<div class="buttonContent"><h3>An Item?</h3><br><p>Just waiting to be unveiled.</p></div>
@@ -62,18 +66,70 @@
 
 
 <style>
+
 p{ color:white;  font-size:130%;font-family:Arial;}
 
 h1{ color:white; font-size:400%; font-family:Arial; white-space: nowrap;}
+
 h2{ color:white; font-size:300%; font-family:Arial;}
 
 h3{ color:white; font-size:130%; font-family:Arial; white-space: nowrap; font-weight:bold;}
-.button{ position:absolute; width: 375px; height:150px; background-image:url('Assets/Gui/button.png');background-size: 100% 100%; z-index:0;filter:brightness(105%);}
-.button:hover{filter:brightness(115%);}
-.button:active{filter:brightness(95%);}
+
+.header
+{
+	position:absolute; 
+	width:376px; 
+	height:105px; 
+	background-image:url('Assets/Gui/header.png');
+	background-size: 100% 100%;
+	text-align:center; 
+	filter:brightness(105%); 
+
+}
+
+.header h2 
+{
+	position: absolute;  
+	left: 50%; 
+	top:50%; 
+	transform: translate(-50%, -50%);
+}
+
+.horBar
+{
+	position:absolute; 
+	width:376px; 
+	height:45px; 
+	
+	background-size: 100% 100%;
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.7);
+}
+
+.button
+{
+	position:absolute; 
+	width: 375px;
+	height:150px; 
+	background-image:url('Assets/Gui/button.png');
+	background-size: 100% 100%; 
+	z-index:0;
+	filter:brightness(105%); 
+	transition:.4s; 
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.7); 
+ }
+.button:hover{filter:brightness(115%);transition:.1s;}
+.button:active
+{
+	filter:brightness(95%); 
+	background-image:url('Assets/Gui/buttonOn.png');
+	transition:.2s; 
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+}
+
 .buttonContent{position:absolute; height:100%; width:100%; padding:20px; width:245px;}
 .sidePanel{position:absolute; width:375px; height:775px; background-image:url('Assets/Gui/menu.png');background-size: 100% 100%; z-index:-1;}
-.vertbar{position:absolute; height:900px;}
-.icon{position:absolute; width:110px; left:245px;top:20px;}
+.vertbar{position:absolute; height:900px; box-shadow: 0px 0px 20px rgba(0,0,0,0.7);}
+.icon{position:absolute; width:110px; left:245px;top:20px;filter:brightness(90%);}
+.hidden{display:none;}
 
 </style>
