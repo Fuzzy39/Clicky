@@ -1,0 +1,15 @@
+Graphics
+	Grandpa Ghost icon
+	Panels:
+		Panel Template
+		Options Panel
+		Prospect Panel
+		Win Note Panel
+		Victory Panel
+		Are you sure to wipe panel
+		Ascend Panel
+	Inline images
+	Fix Pickaxe and Settings images
+	
+Code:
+	Everything
