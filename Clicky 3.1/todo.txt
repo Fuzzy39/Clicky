@@ -1,15 +1,19 @@
 Graphics
 	Grandpa Ghost icon
 	Panels:
-		Panel Template
+		Beta Panel
+		Panel Template X
 		Options Panel
 		Prospect Panel
 		Win Note Panel
 		Victory Panel
-		Are you sure to wipe panel
+		Are you sure to wipe panel X
 		Ascend Panel
 	Inline images
 	Fix Pickaxe and Settings images
+	Text shadows
 	
 Code:
+	Rename stuff to clicky 4
+	organize css buttons
 	Everything

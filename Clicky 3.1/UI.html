@@ -7,12 +7,12 @@
 		<h3 id="gps" style="font-size:170%; position:absolute; top:95px; width:1600px; text-align:center;">Gold Per Second</h3>
 	</div>
 	
-	<div id="depleted" class="frostedGlass" style="font-size:200%;top:640px; left:650px; width:300px; height:75px; text-align:center; z-index:2;)">
+	<div id="depleted" class="frostedGlass hidden" style="font-size:200%;top:640px; left:650px; width:300px; height:75px; text-align:center; z-index:2;)">
 		<h3 style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%);">DEPLETED!</h3>
 	</div>
 	
 	<div class="frostedGlass" style="font-size:90%; top:860px; left:415px; height:40px; width:225px;">
-		<h3 style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%);">Clicky 3.1 by Mason Hill</h3>
+		<h3 style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%);">Clicky 4 BETA</h3>
 	</div>
 
 	<div class="header" style=""><h2>Header</h2></div>
@@ -71,11 +71,49 @@
 	
 
 
-	<div class="">
+	<div id="Template" class="hidden">
 		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
 		<div class="panelBackground">
 			<div class="smallHeader" style="left:238px; font-size:80%;"><h2>Header</h2></div>
 			<img class="closeButton" style="" src="Assets/Gui/Icons/close.png">
+			<div class="panelContent">
+				<p>Content</p>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+
+	<div class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Wipe Save</h2></div>
+			<div class="panelContent">
+				
+				<p>Caution: This will delete <em>ALL</em> of your save data, including gold, upgrades, and miners, as well as all of your legacy bonus.</p>
+				<br>
+				<h3 style="font-style:italic;">Are you sure you want to wipe your save file?</h3>
+				<div class="panelButton" style="left:90px; top:200px;"><h2>Cancel</h2></div>
+				<div class="panelButton" style="left:400px; top:200px;"><h2>Wipe</h2></div>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+
+	
+	<div id="Template" class="">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Welcome!</h2></div>
+			
+			<div class="panelContent">
+				<br>
+				<p>Thanks for being a beta tester for Clicky 4!
+				Please report your general experience after beating the game, as well as any bugs or problems. 
+				If you have a small suggestion, feel free to share it too. I hope you enjoy the game!</p>
+				<p>- Fuzzy</p>
+				<div class="panelButton" style="left:260px; top:225px;"><h2>Play</h2></div>
+				
+			</div>
 		</div>
 		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
 	</div>
@@ -89,16 +127,51 @@ p{ color:white;  font-size:130%;font-family:Arial;}
 
 h1{ color:white; font-size:400%; font-family:Arial; white-space: nowrap;}
 
-h2{ color:white; font-size:300%; font-family:Arial;}
+h2{ color:white; font-size:300%; font-family:Arial; white-space: nowrap;}
 
 h3{ color:white; font-size:130%; font-family:Arial; white-space: nowrap; font-weight:bold;}
+
+em {font-weight:bold; font-style:normal; }
+.panelButton
+{
+	position:absolute; 
+	width: 185px;
+	height:75px; 
+	background-image:url('Assets/Gui/button.png');
+	font-size:75%;
+	background-size: 100% 100%; 
+	z-index:0;
+	filter:brightness(105%); 
+	transition:.4s; 
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.7); 
+ }
+.panelButton:hover{filter:brightness(115%);transition:.1s;}
+.panelButton:active
+{
+	filter:brightness(95%); 
+	background-image:url('Assets/Gui/buttonOn.png');
+	transition:.1s; 
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+}
+
+
+.panelContent
+{
+  position:absolute;
+  top:130px;
+  left:40px;
+  width:700px;
+  font-size:125%;
+  text-align:center; 
+}
+
 .closeButton
 {
 	position:absolute;
 	width:75px;
 	left:650px;
 	box-shadow: 0px 0px 10px rgba(0,0,0,0.7);
-	transition:.2s;
+	transition:.05s;
 }
 
 .closeButton:hover
@@ -120,7 +193,7 @@ h3{ color:white; font-size:130%; font-family:Arial; white-space: nowrap; font-we
 .header
 {
 	position:absolute; 
-	width:376px; 
+	width:376px;
 	height:105px; 
 	background-image:url('Assets/Gui/header.png');
 	background-size: 100% 100%;
@@ -152,6 +225,13 @@ h3{ color:white; font-size:130%; font-family:Arial; white-space: nowrap; font-we
 }
 
 .smallHeader h2 
+{
+	position: absolute;  
+	left: 50%; 
+	top:50%; 
+	transform: translate(-50%, -50%);
+}
+.panelButton h2 
 {
 	position: absolute;  
 	left: 50%; 
