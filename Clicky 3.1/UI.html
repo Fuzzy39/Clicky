@@ -7,7 +7,7 @@
 		<h3 id="gps" style="font-size:170%; position:absolute; top:95px; width:1600px; text-align:center;">Gold Per Second</h3>
 	</div>
 	
-	<div id="depleted" class="frostedGlass" style="font-size:200%;top:700px; left:650px; width:300px; height:75px; text-align:center; z-index:2;)">
+	<div id="depleted" class="frostedGlass" style="font-size:200%;top:640px; left:650px; width:300px; height:75px; text-align:center; z-index:2;)">
 		<h3 style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%);">DEPLETED!</h3>
 	</div>
 	
@@ -41,6 +41,7 @@
 	</div>
 	
 	
+	
 	<img class = "vertbar" src="Assets/Gui/vertBar.png" style="left:375px;">
 	<div class="header" style="left:1225px"><h2>Header</h2></div>
 	<img class="horBar"style="left:1225px; top:105px;" src="Assets/Gui/horizontalBar.png">
@@ -67,6 +68,14 @@
 		</div>
 	</div>
 	<img class = "vertbar" src="Assets/Gui/vertBar.png" style="left:1185px;">
+	
+
+
+	<div>
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<img class="panelBackground" src="Assets/Gui/panelBack.png">
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
 
 </div>
 
@@ -152,5 +161,37 @@ h3{ color:white; font-size:130%; font-family:Arial; white-space: nowrap; font-we
 .vertbar{position:absolute; height:900px; box-shadow: 0px 0px 20px rgba(0,0,0,0.7);}
 .icon{position:absolute; width:110px; left:245px;top:20px;filter:brightness(90%);}
 .hidden{display:none;}
+
+.panelBar
+{
+	position:absolute;
+	width:770px;
+	background-size:100% 100%;
+	z-index:-1;
+	left:415px;
+}
+
+.upperPanelBar
+{
+	top:199px;
+	
+}
+
+.lowerPanelBar
+{
+	top: 750px;
+}
+
+.panelBackground
+{
+	position:absolute;
+	width:770px;
+	height:520px;
+	background-size:100% 100%;
+	z-index:-2;
+	left:415px;
+	top:230px;
+	filter:brightness(110%);
+}
 
 </style>
