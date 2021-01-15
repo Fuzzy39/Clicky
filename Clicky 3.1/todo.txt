@@ -1,7 +1,7 @@
 Graphics
 	Grandpa Ghost icon
 	Panels:
-		Beta Panel
+		Beta Panel X
 		Panel Template X
 		Options Panel
 		Prospect Panel
