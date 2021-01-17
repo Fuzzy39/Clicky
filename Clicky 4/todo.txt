@@ -1,0 +1,27 @@
+Graphics
+	Grandpa Ghost icon
+	Panels:
+		
+		*Options Panel
+		
+		
+		>Win Note Panel
+		>Victory Panel
+		
+		Are you sure to wipe panel X
+		Ascend Panel X
+		Beta Panel X
+		Panel Template X
+		Prospect Panel X
+		
+		
+	Inline images X
+	Fix Pickaxe and Settings images X
+	
+	After the beta:
+		Text shadows
+	
+Code:
+	Rename stuff to clicky 4
+	organize css buttons
+	Everything

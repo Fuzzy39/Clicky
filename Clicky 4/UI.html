@@ -12,7 +12,7 @@
 	</div>
 	
 	<div class="frostedGlass" style="font-size:90%; top:860px; left:415px; height:40px; width:225px;">
-		<h3 style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%);">Clicky 4 BETA</h3>
+		<h3 style="position: absolute;  left: 50%; top:50%; transform: translate(-50%, -50%); white-space: nowrap;">Clicky 4 BETA</h3>
 	</div>
 
 	<div class="header" style=""><h2>Header</h2></div>
@@ -74,7 +74,7 @@
 	<div id="Template" class="hidden">
 		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
 		<div class="panelBackground">
-			<div class="smallHeader" style="left:238px; font-size:80%;"><h2>Header</h2></div>
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Header</h2></div>
 			<img class="closeButton" style="" src="Assets/Gui/Icons/close.png">
 			<div class="panelContent">
 				<p>Content</p>
@@ -100,7 +100,7 @@
 	</div>
 
 	
-	<div id="Template" class="">
+	<div id="" class="hidden">
 		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
 		<div class="panelBackground">
 			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Welcome!</h2></div>
@@ -110,9 +110,50 @@
 				<p>Thanks for being a beta tester for Clicky 4!
 				Please report your general experience after beating the game, as well as any bugs or problems. 
 				If you have a small suggestion, feel free to share it too. I hope you enjoy the game!</p>
-				<p>- Fuzzy</p>
+				
 				<div class="panelButton" style="left:260px; top:225px;"><h2>Play</h2></div>
 				
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+	
+	
+	<div id="" class="hidden">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Legacy</h2></div>
+			<div class="panelContent">
+				<p>You will lose <em>ALL</em> of your gold, upgrades, and miner, but you will recive X% bonus to GPS.</p>
+				<br>
+				<h3 style="font-style:italic;">Are you sure you want to wipe your Ascend ans gain a X% legacy bonus?</h3>
+				<div class="panelButton" style="left:90px; top:200px;"><h2>Cancel</h2></div>
+				<div class="panelButton" style="left:400px; top:200px;"><h2>Ascend</h2></div>
+			</div>
+		</div>
+		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
+	</div>
+	
+	<div id="" class="">
+		<img class="upperPanelBar panelBar" src="Assets/Gui/panelBar.png">
+		<div class="panelBackground">
+			<div class="smallHeader" style="left:250px; font-size:80%;"><h2>Prospect</h2></div>
+			<img class="closeButton" style="" src="Assets/Gui/Icons/close.png">
+			<div class="panelContent" style="text-size:95%;">
+				<img style="top:00px; left:120px;" class="prospectButton" src="Assets/Gui/Icons/iconAlaska.png">
+				<h3 style="position:absolute; width:128px; top:140px; left:120px; font-size:150%;">Alaska</h3>
+				<p style="position:absolute;top:180px; left:110px;">Cost: 1,000<img src="Assets/Gui/Icons/goldIcon.png"></p>
+				<p style="position:absolute;top:215px; left:110px;">Yield: Low</p>
+				
+				<img  style="top:00px; left:450px;"class="prospectButton" src="Assets/Gui/Icons/iconCalifornia.png">
+				<h3 style="position:absolute; width:128px; top:140px; left:450px; font-size:140%;">California</h3>
+				
+				<p style="position:absolute;top:180px; left:440px;">Cost: 100K<img src="Assets/Gui/Icons/goldIcon.png"> </p>
+				<p style="position:absolute;top:215px; left:440px;">Yield: High</p>
+			
+				<div class="goldBar"><div class="goldFilling" style="width:10%;"></div></div>
+				<p style="position:absolute;top:285px; left:560px;">Reserves:</p>
+				<p style="position:absolute;top:315px; left:560px;">AMOUNT<img src="Assets/Gui/Icons/goldIcon.png"></p>
 			</div>
 		</div>
 		<img class="lowerPanelBar panelBar" src="Assets/Gui/panelBar.png">
@@ -129,9 +170,49 @@ h1{ color:white; font-size:400%; font-family:Arial; white-space: nowrap;}
 
 h2{ color:white; font-size:300%; font-family:Arial; white-space: nowrap;}
 
-h3{ color:white; font-size:130%; font-family:Arial; white-space: nowrap; font-weight:bold;}
+h3{ color:white; font-size:130%; font-family:Arial; font-weight:bold;}
 
 em {font-weight:bold; font-style:normal; }
+
+.goldBar
+{
+	position:absolute;
+	top:282px;
+	left:20px;
+	height:50px;
+	width:500px;
+	border: 10px solid;
+	background:#999;
+	border-color:#cfa110;
+	box-shadow: 0px 0px 15px rgba(0,0,0,0.7); 
+}
+
+.goldFilling
+{
+	background:#ffc130;
+	width:0%;
+	height:100%;
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+.prospectButton
+{
+	position:absolute; 
+	background-size: 100% 100%; 
+	filter:brightness(95%); 
+	transition:.4s; 
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.7); 
+}
+.prospectButton:hover{filter:brightness(105%);transition:.1s;}
+.prospectButton:active
+{
+	filter:brightness(85%); 
+	transition:.1s; 
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+}
+
 .panelButton
 {
 	position:absolute; 

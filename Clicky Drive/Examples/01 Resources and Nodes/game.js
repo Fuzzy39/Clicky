@@ -2,8 +2,6 @@
 // Style Watermark
 
 ClickyDrive.versionAppend="| Resources and Nodes";
-ClickyDrive.vWatermarkStyle.strokeThickness=.5;
-ClickyDrive.vWatermarkStyle.fontSize=20;
 // Select Background.ui
 ClickyDrive.background='Assets/Background.png';
 
