@@ -64,7 +64,7 @@
 			</div>
 			<img class="icon" src="Assets/Gui/Icons/Upgrades/iconBrain.png">
 		</div>
-		<div class="button" style=" top:625px;" >
+		<div class="button unlocked" style=" top:625px;" >
 			<div class="buttonContent"><h3>Statistics</h3>
 				<br>
 				<p>See various game stats.</p>
@@ -84,7 +84,7 @@
 	<div class="header" style="left:1225px"><h2>Miners</h2></div>
 	<img class="horBar"style="left:1225px; top:105px;" src="Assets/Gui/horizontalBar.png">
 	<div class="sidePanel" style="top:125px; left:1225px;">
-		<div id="Prospect" class="button hidden" style=" top:025px;" >
+		<div id="Prospect" class="button hidden locked" style=" top:025px;" >
 			<div class="buttonContent"><h3>Prospect</h3>
 				<br>
 				<p>Buy more land and get gold.</p>
@@ -95,7 +95,7 @@
 			<img class="icon" src="Assets/Gui/Icons/newNode.png">
 			
 		</div>
-		<div id="Prospector" class="button  hidden" style=" top:175px;" >
+		<div id="Prospector" class="button hidden" style=" top:175px;" >
 			<div class="buttonContent"><h3>???</h3>
 				<br>
 				<p>Cost</p>
@@ -485,7 +485,7 @@ em {font-weight:bold; font-style:normal; }
 	background-image:url('Assets/Gui/button.png');
 	background-size: 100% 100%; 
 	z-index:0;
-	filter:brightness(105%); 
+	filter:brightness(400%); 
 	transition:.4s; 
 	box-shadow: 0px 0px 20px rgba(0,0,0,0.7); 
  }
@@ -497,7 +497,11 @@ em {font-weight:bold; font-style:normal; }
 	transition:.1s; 
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
 }
-
+.unlocked
+{
+	filter:brightness(95%); 
+	transition:1s;
+}
 
 .buttonContent{position:absolute; height:100%; width:100%; padding-top:22px; padding-left:25px; width:240px; line-height:100%;}
 .buttonContent p{ font-size:93%; line-height:130%;}

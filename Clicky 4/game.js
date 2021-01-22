@@ -101,7 +101,10 @@ function isUnlocked( unlockID )
 function unlock(unlockID)
 {
 	let element = document.getElementById(Object.keys(unlockIDs)[unlockID]);
+	
 	element.classList.remove('hidden');
+	
+	setTimeout(() => { element.classList.add('unlocked'); }, 50);
 }
 
 
