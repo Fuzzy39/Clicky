@@ -23,23 +23,24 @@
 	<div class="header" style=""><h2>Upgrades</h2></div>
 	<img class="horBar" style="left:0px; top:105px;" src="Assets/Gui/horizontalBar.png">
 	<div class="sidePanel" style="top:125px;">
-		<div id="PickUp" class="button hidden" style=" top:025px;" >
+		<div id="PickUp" class="button hidden" onclick="upgrades.PickUp.purchase();" style=" top:025px;" >
 			<div class="buttonContent"><h3>Stronger Picks</h3>
 				<br>
-				<p>Owned and Effect</p>
-				<p>Cost</p>
-				<p style="font-style:italic;">Cuts like butter!</p>
+				<p id="PickUpOwned">Owned and Effect</p>
+				<p id="PickUpCost">Cost</p>
 				<p>Effect: 2x <img class="inline" src="Assets/Gui/Icons/goldIcon.png"> per click<p>
+				<p style="font-style:italic;">Cuts like butter!</p>
+				
 			</div>
 			<img class="icon" src="Assets/Gui/Icons/Upgrades/Pickaxe.png">
 		</div>
 		<div id="MinerUp" class="button hidden" style=" top:175px;" >
 			<div class="buttonContent"><h3>Harder Hats</h3>
 				<br>
-				<p>Owned and Effect</p>
-				<p>Cost</p>
-				<p style="font-style:italic;">Good against those falling rocks.</p>
+				<p id="MinerUpOwned">Owned and Effect</p>
+				<p id="MinerUpCost">Cost</p>
 				<p>Effect: +1 GPS per Miner<p>
+				<p style="font-style:italic;">Good against those falling rocks.</p>
 				
 			</div>
 			<img class="icon" src="Assets/Gui/Icons/Upgrades/iconHelmet.png">
@@ -47,18 +48,18 @@
 		<div id="DrillUp" class="button hidden" style=" top:325px;" >
 			<div class="buttonContent"><h3>Faster Drills</h3>
 				<br>
-				<p>Owned and Effect</p>
-				<p>Cost</p>
-				<p style="font-style:italic;">These things are <em style="font-style:italic;">SMOOTH</em>!</p>
+				<p id="DrillUpOwned">Owned and Effect</p>
+				<p id="DrillUpCost">Cost</p>
 				<p>Effect: +10 GPS per Drill<p>
+				<p style="font-style:italic;">These things are <em style="font-style:italic;">SMOOTH</em>!</p>
 			</div>
 			<img class="icon" src="Assets/Gui/Icons/Upgrades/iconDrillUp.png">
 		</div>
 		<div id="LazerUp" class="button hidden" style=" top:475px;" >
 			<div class="buttonContent"><h3>Smarter Lasers</h3>
 				<br>
-				<p>Owned and Effect</p>
-				<p>Cost</p>
+				<p id="LazerUpOwned">Owned and Effect</p>
+				<p id="LazerUpCost">Cost</p>
 				<p style="font-style:italic;">Not Skynet. Yet...</p>
 				<p>Effect: +100 GPS per Laser<p>
 			</div>
@@ -111,8 +112,8 @@
 				<br>
 				<p>Owned and Effect</p>
 				<p>Cost</p>
-				<p style="font-style:italic;">We need to go deeper!</p>
 				<p>Effect: XGPS<p>
+				<p style="font-style:italic;">We need to go deeper!</p>
 			</div>
 			<img class="icon" src="Assets/Gui/Icons/Autos/Miner.png">
 		</div>
@@ -121,8 +122,8 @@
 				<br>
 				<p>Owned and Effect</p>
 				<p>Cost</p>
-				<p style="font-style:italic;">Don't maim any miners! - ooh...</p>
 				<p>Effect: XGPS<p>
+				<p style="font-style:italic;">Don't maim any miners! - ooh...</p>
 			</div>
 			<img class="icon" src="Assets/Gui/Icons/autos/iconDrill.png">
 		</div>
@@ -131,8 +132,8 @@
 				<br>
 				<p>Owned and Effect</p>
 				<p>Cost</p>
-				<p style="font-style:italic;">Don't mind the fresh lava.</p>
 				<p>Effect: XGPS<p>
+				<p style="font-style:italic;">Don't mind the fresh lava.</p>
 			</div>
 			<img class="icon" src="Assets/Gui/Icons/Autos/iconLazer.png">
 		</div>
@@ -304,254 +305,3 @@
 	</div>
 
 </div>
-
-
-<style>
-
-p{ color:white;  font-size:130%;font-family:Arial;}
-
-h1{ color:white; font-size:400%; font-family:Arial; white-space: nowrap;}
-
-h2{ color:white; font-size:300%; font-family:Arial; white-space: nowrap;}
-
-h3{ color:white; font-size:130%; font-family:Arial; font-weight:bold;}
-
-em {font-weight:bold; font-style:normal; }
-
-.inline{width: 16px;}
-.listDark{backdrop-filter:brightness(95%); padding-top:20px; padding-bottom:20px;}
-.listBright{backdrop-filter:brightness(110%); padding-top:20px; padding-bottom:20px;}
-.goldBar
-{
-	position:absolute;
-	top:282px;
-	left:20px;
-	height:50px;
-	width:500px;
-	border: 10px solid;
-	background:#999;
-	border-color:#cfa110;
-	box-shadow: 0px 0px 15px rgba(0,0,0,0.7); 
-}
-
-.goldFilling
-{
-	background:#ffc130;
-	width:0%;
-	height:100%;
-	position:absolute;
-	left:0px;
-	top:0px;
-}
-
-.prospectButton
-{
-	position:absolute; 
-	background-size: 100% 100%; 
-	filter:brightness(95%); 
-	transition:.4s; 
-	box-shadow: 0px 0px 20px rgba(0,0,0,0.7); 
-}
-.prospectButton:hover{filter:brightness(105%);transition:.1s;}
-.prospectButton:active
-{
-	filter:brightness(85%); 
-	transition:.1s; 
-	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
-}
-
-.panelButton
-{
-	position:absolute; 
-	width: 185px;
-	height:75px; 
-	background-image:url('Assets/Gui/button.png');
-	font-size:75%;
-	background-size: 100% 100%; 
-	z-index:0;
-	filter:brightness(105%); 
-	transition:.4s; 
-	box-shadow: 0px 0px 20px rgba(0,0,0,0.7); 
- }
-.panelButton:hover{filter:brightness(115%);transition:.1s;}
-.panelButton:active
-{
-	filter:brightness(95%); 
-	background-image:url('Assets/Gui/buttonOn.png');
-	transition:.1s; 
-	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
-}
-
-
-.panelContent
-{
-  position:absolute;
-  top:130px;
-  left:40px;
-  width:700px;
-  font-size:125%;
-  text-align:center; 
-}
-
-.closeButton
-{
-	position:absolute;
-	width:75px;
-	left:650px;
-	box-shadow: 0px 0px 10px rgba(0,0,0,0.7);
-	transition:.05s;
-}
-
-.closeButton:hover
-{
-	filter:brightness(110%); 
-}
-
-.closeButton:active
-{
-	filter:brightness(90%); 
-	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
-}
-.frostedGlass
-{
-	position:absolute;
-	box-shadow:0px 0px 20px rgba(0,0,0,.5);
-	backdrop-filter: blur(1.5px) brightness(90%);
-}
-.header
-{
-	position:absolute; 
-	width:376px;
-	height:105px; 
-	background-image:url('Assets/Gui/header.png');
-	background-size: 100% 100%;
-	text-align:center; 
-	filter:brightness(105%); 
-
-}
-
-.smallHeader
-{
-	box-shadow: inset 0 0 10px rgba(0,0,0,.2);
-	position:absolute; 
-	width:275px; 
-	height:75px; 
-	background-image:url('Assets/Gui/header.png');
-	background-size: 100% 100%;
-	text-align:center; 
-	filter:brightness(105%); 
-
-}
-
-
-.header h2 
-{
-	position: absolute;  
-	left: 50%; 
-	top:50%; 
-	transform: translate(-50%, -50%);
-}
-
-.smallHeader h2 
-{
-	position: absolute;  
-	left: 50%; 
-	top:50%; 
-	transform: translate(-50%, -50%);
-}
-.panelButton h2 
-{
-	position: absolute;  
-	left: 50%; 
-	top:50%; 
-	transform: translate(-50%, -50%);
-}
-
-.horBar
-{
-	position:absolute; 
-	width:376px; 
-	height:45px; 
-	
-	background-size: 100% 100%;
-	box-shadow: 0px 0px 20px rgba(0,0,0,0.7);
-}
-
-.button
-{
-	position:absolute; 
-	width: 375px;
-	height:150px; 
-	background-image:url('Assets/Gui/button.png');
-	background-size: 100% 100%; 
-	z-index:0;
-	filter:brightness(400%); 
-	transition:.4s; 
-	box-shadow: 0px 0px 20px rgba(0,0,0,0.7); 
- }
-.button:hover{filter:brightness(115%);transition:.1s;}
-.button:active
-{
-	filter:brightness(95%); 
-	background-image:url('Assets/Gui/buttonOn.png');
-	transition:.1s; 
-	box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
-}
-.unlocked
-{
-	filter:brightness(95%); 
-	transition:1s;
-}
-
-.buttonContent{position:absolute; height:100%; width:100%; padding-top:22px; padding-left:25px; width:240px; line-height:100%;}
-.buttonContent p{ font-size:93%; line-height:130%;}
-.sidePanel
-{
-	position:absolute; 
-	width:375px; 
-	height:800px; 
-	background-image:url('Assets/Gui/menu.png');
-	background-size: 100% 100%;
-	z-index:-1;
-	padding-top:25px;
-}
-.vertbar{position:absolute; height:900px; box-shadow: 0px 0px 20px rgba(0,0,0,0.7);}
-.icon{position:absolute; width:110px; left:241px;top:21px;filter:brightness(90%);}
-.hidden{display:none;}
-
-.panelBar
-{
-	position:absolute;
-	width:770px;
-	background-size:100% 100%;
-	z-index:-1;
-	left:415px;
-	; box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
-}
-
-.upperPanelBar
-{
-	top:199px;
-	
-}
-
-.lowerPanelBar
-{
-	top: 750px;
-}
-
-.panelBackground
-{
-	position:absolute;
-	width:730px;
-	height:480px;
-	background-size:100% 100%;
-	z-index:-2;
-	left:415px;
-	top:230px;
-	filter:brightness(110%);
-	background-image:url('Assets/Gui/panelBack.png');
-	padding:30px;
-}
-
-</style>

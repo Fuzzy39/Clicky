@@ -1,5 +1,5 @@
 "use strict";
-let inlineIcon = "<img src=\"Assets/Gui/Icons/goldIcon.png\"";
+let inlineIcon = " <img class=\"inline\" src=\"Assets/Gui/Icons/goldIcon.png\">";
 
 // Select Background image
 ClickyDrive.background='Assets/Background.png';
@@ -11,7 +11,7 @@ ClickyDrive.ui='UI.html';
 //ClickyDrive.gameID="Test";
 
 // let's attempt to add a new resource, gold
-let gold = new ClickyDrive.resource("gold", 5000, true);
+let gold = new ClickyDrive.resource("gold", Infinity, true);
 
 // define a node to go along with it.
 let goldNode =new ClickyDrive.node("gold",800,450, ["Assets/gold0.png","Assets/gold1.png","Assets/gold2.png","Assets/gold3.png"]);
@@ -46,6 +46,52 @@ let unlockIDs =
 }
 
 
+// All items:
+
+let upgradeLevels=["Base","Stone","Tin","Copper","Bronze","Iron","Cast Iron","Steel","Stainless Steel","Tungsten","Tungsten Alloy","Titanium","Titanium Alloy","Composite","Composite Alloy","Carbon Fiber","Carbon Nanotube","Nanotube Alloy","Electrum","Gold Alloy","Devine Gold"];
+
+let upgrades =
+{
+	PickUp:new ClickyDrive.item('PickUp', {'gold':10}, 3,{"gold":0})
+	//MinerUp:new ClickyDrive.item('MinerUp', {'gold':500}, 1.5, {"gold":0}),
+	//DrillUp:2,
+	//LazerUp:3,
+	 
+}
+
+// Define upgrade properties
+upgrades.PickUp.onPurchase=function(){ gold.perClick*=2; }
+
+// updates upgrade buttons
+function updateUpgrades()
+{
+	for( let i in upgrades)
+	{
+		//get the cost Element
+		//console.log(upgrades[i].costs.gold+inlineIcon);
+		document.getElementById(i+"Cost").innerHTML= "Cost: "+upgrades[i].costs.gold+inlineIcon;
+		let owned="Level: ("+upgrades[i].amount+"/"+(upgradeLevels.length-1)+") "+upgradeLevels[upgrades[i].amount]+" | ";
+		// for now
+		switch(i)
+		{
+			case "PickUp":
+				owned+=gold.perClick+" GPC"
+				break;
+		}
+		document.getElementById(i+"Owned").innerHTML=owned;
+	}
+	
+}
+
+// now for miners
+
+let miners =
+{
+	Miner:new ClickyDrive.item('Miner', {'gold':25}, 1.1,{"gold":1}),
+	//Min:new ClickyDrive.item('Miner', {'gold':25}, 1.1,{"gold":1})
+}
+
+
 
 function updateUnlocked()
 {
@@ -58,8 +104,12 @@ function updateUnlocked()
 			{
 				
 				case unlockIDs.PickUp:
-					if(gold.amount>=/*pickup.cost*/10){unlock(unlockIDs[i]);}
-				break;
+					console.log("WTF");
+					if(gold.amount>=upgrades.PickUp.costs.gold){unlock(unlockIDs[i]);}
+					break;
+				case unlockIDs.Miner:
+					if(gold.amount>=miners.Miner.costs.gold){unlock(unlockIDs[i]);}
+					break;
 					
 			}
 			
@@ -98,6 +148,7 @@ function isUnlocked( unlockID )
 	return false;
 }
 
+
 function unlock(unlockID)
 {
 	let element = document.getElementById(Object.keys(unlockIDs)[unlockID]);
@@ -107,20 +158,24 @@ function unlock(unlockID)
 	setTimeout(() => { element.classList.add('unlocked'); }, 50);
 }
 
+function unlockAll()
+{
+	for( let i in unlockIDs )
+	{
+		unlock(unlockIDs[i]);
+	}
+}
 
-//let pickUp = new ClickyDrive.item('prospect', {'gold':10}, 3, {"gold":0});
-//pickUp.onPurchase= function() { gold.perClick*=2;}
 
 
-//let miner = new ClickyDrive.item('miner', {'gold':10}, 1.1, {"gold":10});
 
 ClickyDrive.hookins.update = function()
 {
-	ClickyDrive.ui.getChildByID("gold").innerHTML="Gold: "+prettyPrint(gold.amount)+inlineIcon;
+	ClickyDrive.ui.getChildByID("gold").innerHTML="Gold: "+prettyPrint(gold.amount);
 	ClickyDrive.ui.getChildByID("gps").innerHTML=gold.perSecond+" GPS";
 	
-	 updateUnlocked();
-	
+	updateUnlocked();
+	updateUpgrades();
 
 }
 
