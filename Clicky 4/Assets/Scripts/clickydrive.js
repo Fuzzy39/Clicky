@@ -38,7 +38,7 @@ var ClickyDrive =
 {
 
 	game:undefined,
-    versionString:"Clicky Drive v0.2.0.355 ",
+    versionString:"Clicky Drive v0.2.1 .381 ",
 	versionID:"Alpha_7",
 	gameID:undefined,
 	versionAppend:"",
@@ -51,6 +51,8 @@ var ClickyDrive =
 	lastUpdated:Date.now(), // when the game was last updated.
 	tickCounter:0,
 	tickCounterLimit:60*60*10, // 10 minutes at 60 tps.
+	inactiveLimit:30*60, // 30 minutes of inactive production.
+	inactiveMultiplier:.33, //1/3 production while inactive
 	
 	background:undefined,
 	ui:undefined,
@@ -96,11 +98,13 @@ var ClickyDrive =
 		
 			// get the amount.
 			ClickyDrive.save.setItem( ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amount", Math.round(ClickyDrive.resources[i].amount) );
-			
+			ClickyDrive.save.setItem( ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amountAllTime", Math.round(ClickyDrive.resources[i].amountAllTime) );
 			//get the amount availiable and left.
 		    ClickyDrive.save.setItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amountAvailable", 	Math.round(ClickyDrive.resources[i].amountAvailable) );
 			
 			ClickyDrive.save.setItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".totalAmountAvailable", Math.round(ClickyDrive.resources[i].totalAmountAvailable) );
+			
+			ClickyDrive.save.setItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".clicks", Math.round(ClickyDrive.resources[i].clicks) );
 			
 			
 		}
@@ -143,19 +147,30 @@ var ClickyDrive =
 		
 					// get the amount.
 					ClickyDrive.resources[i].amount = parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amount"));
-			
+					ClickyDrive.resources[i].amountAllTime = parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amountAllTime"));
 					
 					//get the amount availiable and left.
 					ClickyDrive.resources[i].amountAvailable=parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".amountAvailable"));
 					
 					ClickyDrive.resources[i].totalAmountAvailable=parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".totalAmountAvailable"));
 					
+					ClickyDrive.resources[i].clicks=parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".resources."+ClickyDrive.resources[i].name+".clicks"));
+					
 					
 				}
+				
 				// and items.
 				for ( let i in ClickyDrive.items)
 				{
-					ClickyDrive.items[i].amount =  parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".items."+ClickyDrive.items[i].name+".amount"));
+					let goal =parseInt(ClickyDrive.save.getItem(ClickyDrive.gameID+".items."+ClickyDrive.items[i].name+".amount"));
+					if(!ClickyDrive.items[i].isOneTime )
+					{
+						for( ; ClickyDrive.items[i].amount<goal;)
+						{
+							ClickyDrive.items[i].amount++;
+							ClickyDrive.items[i].onPurchase();
+						}
+					}
 				}
 				
 				return true;
@@ -337,7 +352,17 @@ var ClickyDrive =
 			ClickyDrive.resources[i].make(ClickyDrive.resources[i].perSecond/60);
 			
 			// and make some cash money from inactivity, if needbe.
-			ClickyDrive.resources[i].make(ClickyDrive.resources[i].perSecond*Math.round(now-before));
+			if(now-before>=1)
+			{
+				if(now-before<=ClickyDrive.inactiveLimit)
+				{
+					ClickyDrive.resources[i].make(ClickyDrive.resources[i].perSecond*Math.round(now-before)*ClickyDrive.inactiveMultiplier);
+				}
+				else
+				{
+					ClickyDrive.resources[i].make(ClickyDrive.resources[i].perSecond*ClickyDrive.inactiveLimit*ClickyDrive.inactiveMultiplier);
+				}
+			}
 	
 		}
 
@@ -413,9 +438,11 @@ var ClickyDrive =
 		ClickyDrive.resources[name]=this;
 		this.enabled=enabled;
 		this.amount=0;
+		this.amountAllTime=0;
 		this.perSecond=0;
 		this.perSecondMultipler=1;
 		this.perClick=1;
+		this.clicks=0;
 		
 		// adds to availaible, not to current count.
 		this.add=function(toAdd)
@@ -427,11 +454,17 @@ var ClickyDrive =
 
 		this.mine = function(x,y)
 		{
+			if( !this.enabled)
+			{
+				return;
+			}
+			
+			this.clicks++;
 			
 			// mining is just clicking a node to get a resource.
 			let mined= this.make(this.perClick)
 			
-			for(let i = 0; i<Math.floor(Math.log(this.perClick) / Math.log(100))+1; i++)
+			for(let i = 0; i<Math.floor(Math.log(this.perClick) / Math.log(10))+1; i++)
 			{
 				if(mined)
 				{
@@ -457,7 +490,7 @@ var ClickyDrive =
 			{
 				
 				ClickyDrive.nodes[this.name].currentTexture.setTint(0xdddddd);
-				return null;
+				
 			}
 			
 			
@@ -473,12 +506,14 @@ var ClickyDrive =
 			if( toAdd <= this.amountAvailable)
 			{
 				this.amount+= toAdd; // take all that's due
+				this.amountAllTime+=toAdd;
 				this.amountAvailable-=toAdd // and remove it from the stache.
 			}
 			else
 			{
 				// exaust whatever is remaining.
 				this.amount+=this.amountAvailable;
+				this.amountAllTime+=this.amountAvailable;
 				this.amountAvailable=0;	
 				// if a resource is disabled.
 				
@@ -565,6 +600,11 @@ var ClickyDrive =
 		
 		this.determineDepletionState = function()
 		{
+			if(ClickyDrive.resources[this.name].amountAvailable===Infinity)
+			{
+					ClickyDrive.nodes[this.name].currentTexture.setTexture(this.name+''+0);
+					return;
+			}
 			
 			if(ClickyDrive.resources[this.name].amountAvailable===0)
 			{
@@ -645,12 +685,12 @@ var ClickyDrive =
 
 		this.texture.setScale(scale);
 		this.texture.angle = getRndInteger(-180,180);
-		this.velX=getRndInteger(-10,10);
+		this.velX=getRndInteger(-12,12);
 		this.velY=getRndInteger(-2,-15);
 		this.velAngle=this.velX;
 		this.animate = function()
 		{
-			let gravity = 1;
+			let gravity = 2;
 			this.texture.x+=this.velX;
 			this.texture.y+=this.velY;
 			this.texture.angle+=this.velAngle;
@@ -670,6 +710,7 @@ var ClickyDrive =
 		this.costExponent=costExponent;
 		this.basePerSecond=basePerSecond; // formatted like costs
 		this.perSecondMultiplier = 1;
+		this.isOneTime=false; // wheather the upgrade is 
 		
 		this.amount=0;
 		this.costs= {};
@@ -704,12 +745,11 @@ var ClickyDrive =
 			
 		} 
 		
-		
-		
 		this.purchase=function()
 		{
 			if(this.amount===this.maxAmount)
 			{
+				this.graphicFail();
 				return false;
 			}
 			
@@ -718,6 +758,7 @@ var ClickyDrive =
 				
 				if(ClickyDrive.resources[i].amount < this.costs[i] )
 				{
+					this.graphicOnPurchaseFail();
 					return false;
 				}
 			}
@@ -729,13 +770,24 @@ var ClickyDrive =
 				
 			}
 			
-			this.amount++;
-			this.update();
-			this.onPurchase();
+			
+			this.add();
+			this.graphicOnPurchase();
 			return true;
 		}
 		
+		this.add = function()
+		{
+			this.amount++;
+			this.update();
+			this.onPurchase();
+		}
+		
 		this.onPurchase=function(){}; // user defined.
+		
+		// graphics related.
+		this.graphicOnPurchase= function(){};
+		this.graphicOnPurchaseFail=function(){}; // user defined
 		
 	}
 }

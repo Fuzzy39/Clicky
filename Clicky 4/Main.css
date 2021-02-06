@@ -4,7 +4,7 @@ h1{ color:white; font-size:400%; font-family:Arial; white-space: nowrap;}
 
 h2{ color:white; font-size:300%; font-family:Arial; white-space: nowrap;}
 
-h3{ color:white; font-size:130%; font-family:Arial; font-weight:bold;}
+h3{ color:white; font-size:130%; font-family:Arial; font-weight:bold; white-space: nowrap;}
 
 em {font-weight:bold; font-style:normal; }
 * {
